@@ -2,6 +2,9 @@
     <?php
     while (have_posts()) :
         the_post();
+
+        include_once __RPI_RELI_FRONTEND_DIR__ . '/helper/material_frontend_helper.php';
+        $frontendHelper = new MaterialFrontendHelper(get_the_ID(), RpiReliFrontendSearch::getSearchPage());
         ob_start();
         ?>
         <article class="entry-card">
@@ -17,7 +20,9 @@
                         <span class="ct-ratio" style="padding-bottom: 75%"></span>
                     </a>
                 <?php } ?>
-                <div class="excerpt"></div>
+                <div class="excerpt">
+                    <?php echo get_the_excerpt() ?>
+                </div>
                 <div class="ct-ghost"></div>
                 <div style="clear: both"></div>
                 <div class="taxonomien">
@@ -25,24 +30,11 @@
                         <img class="taxonomy-icon"
                              src="<?php echo __RPI_RELI_FRONTEND_URI__ . "assets/author.svg" ?>"
                              alt="">
-                        <a href="<?php echo __RPI_RELI_FRONTEND_SEARCH_URL__ . '?_search=' . get_the_author() ?>"> <?php the_author() ?> </a>
+                        <a href="<?php echo get_site_url() . '/author/' . get_the_author() ?>"> <?php the_author() ?> </a>
                     </div>
-
                     <?php
-                    $taxonomies = get_object_taxonomies('materialien', 'objects');
-                    foreach ($taxonomies as $taxonomy) { ?>
-                        <?php $terms = RpiReliFrontendSearch::get_taxonomy_to_html(get_the_ID(), $taxonomy->name);
-                        if (!empty($terms)) {
-                            ?>
-                            <div class="<?php echo $taxonomy->name ?>">
-                                <img class="taxonomy-icon"
-                                     src="<?php echo __RPI_RELI_FRONTEND_URI__ . "assets/" . $taxonomy->name . ".svg" ?>"
-                                     alt="">
-                                <?php echo $terms ?>
-                            </div>
-                            <?php
-                        }
-                    }
+                    echo $frontendHelper->get_tags_as_html('formal');
+                    echo $frontendHelper->get_tags_as_html('inhalt');
                     ?>
                 </div>
         </article>

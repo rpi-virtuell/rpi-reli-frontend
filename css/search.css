@@ -1,3 +1,7 @@
+.hidden {
+    visibility: hidden;
+}
+
 .search-bar {
     display: flex;
     flex-direction: row;
@@ -7,6 +11,10 @@
     margin: 10px !important;
 }
 
+.search-bar .facetwp-search {
+    min-width: unset !important;
+}
+
 .material-grid, .search-filters {
     display: grid;
     grid-gap: 30px;
@@ -14,10 +22,72 @@
     margin-top: 20px;
 }
 
+.material-detail-grid {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 60% 40%;
+}
+
+.material-content {
+    grid-area: content;
+}
+
+.material-content .wp-block-post-featured-image {
+    background: #f2edc9;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.material-content .wp-block-post-featured-image img{
+    width: 60%;
+    margin: 20px 0;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 3px solid #fff;
+    box-shadow: 2px 2px 12px 2px rgba(0, 0, 0, 0.8);
+}
+
+
+.material-origin {
+    grid-area: origin;
+    height: fit-content;
+}
+
+.material-taxonomies {
+    grid-area: taxonomies;
+    background-color: #f2edc9;
+    border-radius: 15px;
+    padding: 10px;
+    height: fit-content;
+}
+
+.material-taxonomies img {
+    margin-right: 5px;
+}
+
+.material-origin, .material-tags {
+}
+
+.material-origin div, .material-tags div {
+}
+
+.material-report {
+    display: flex;
+    flex-direction: column;
+    grid-area: report;
+    height: fit-content;
+}
+
+
 .search-filters {
     padding: 10px;
     box-shadow: 2px 1px 7px rgba(0, 0, 0, 0.2) !important;
     background: seashell;
+}
+
+.single-filter{
+    margin: 0 auto;
 }
 
 .entry-card {
@@ -32,12 +102,22 @@
         grid-template-columns: repeat(1, 1fr);
     }
 
+    .material-detail-grid {
+        grid-template-areas:
+                "content"
+                "taxonomies"
+                "report";
+    }
 }
 
 @media only screen and (min-width: 600px) {
     .material-grid, .search-filters {
         grid-template-columns: repeat(2, 1fr);
+    }
 
+    .material-detail-grid {
+        grid-template-areas:    "content taxonomies"
+                            "content report";
     }
 }
 
@@ -45,6 +125,8 @@
     .material-grid, .search-filters {
         grid-template-columns: repeat(3, 1fr);
     }
+
+
 }
 
 .material-grid .facet-treffer {
@@ -54,7 +136,7 @@
     height: 100%;
 }
 
-.material-title h2{
+.material-title h2 {
     font-size: 1.5em;
     font-weight: 600;
     line-height: 1.2em;
@@ -62,7 +144,8 @@
     min-height: 110px;
     margin-top: -24px !important;
 }
-.material-title h2 a{
+
+.material-title h2 a {
     display: table-cell;
     vertical-align: middle;
 }
