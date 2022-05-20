@@ -21,6 +21,26 @@
     align-content: space-around;
     margin-top: 20px;
 }
+.entry-content{
+    position: relative;
+}
+
+.edit-spacer{
+    position: absolute;
+    top: -100px;
+    width: 100% !important;
+    text-align: end;
+}
+
+.edit-spacer a{
+    height: 100% !important;
+    background: #fffbd5;
+}
+
+.edit-spacer img{
+    height: 40px;
+    width: 40px;
+}
 
 .material-detail-grid {
     display: grid;
@@ -33,12 +53,11 @@
 }
 
 .material-content .wp-block-post-featured-image {
-    background: #f2edc9;
-    border-radius: 15px;
     text-align: center;
 }
 
 .material-content .wp-block-post-featured-image img{
+    padding: 10px;
     width: 60%;
     margin: 20px 0;
     height: auto;
@@ -53,11 +72,13 @@
     grid-area: origin;
     height: fit-content;
 }
+.material-origin h3 {
+    margin-bottom: unset !important;
+}
 
 .material-taxonomies {
     grid-area: taxonomies;
-    background-color: #f2edc9;
-    border-radius: 15px;
+    background-color: #fffbd5;
     padding: 10px;
     height: fit-content;
 }
@@ -125,8 +146,6 @@
     .material-grid, .search-filters {
         grid-template-columns: repeat(3, 1fr);
     }
-
-
 }
 
 .material-grid .facet-treffer {

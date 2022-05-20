@@ -21,19 +21,19 @@ class MaterialFrontendHelper
         if (is_array($formal_tags)) {
             foreach ($formal_tags as $formal_key => $formal_tag) {
                 if ($formal_tag) {
-
-                    if ($formal_key === 'post_author') {
-                        $co_author = $formal_tags['coautor'];
+                    if ($formal_key == 'post_author') {
+                        if (isset($formal_tags['coautor']))
+                            $co_author = $formal_tags['coautor'];
                         $html .= '<div class="author">';
-                        $html .= '<img class="taxonomy-icon" src="' . __RPI_RELI_FRONTEND_URI__ . 'assets/author.svg" alt="">';
+                        $html .= '<img class="taxonomy-icon" src="' . __RPI_RELI_FRONTEND_URI__ . 'assets/author.svg" title="Autor" alt="">';
                         $html .= get_the_author_posts_link();
                         if (!empty($co_author)) {
                             $html .= ', ' . $co_author;
                         }
-                        $html .= '</div>';
+                        $html .= ' (' . get_the_date() . ')';
                         continue;
                     }
-                    if ($formal_key === 'coautor')
+                    if ($formal_key == 'coautor')
                         continue;
 
                     $taxonomy = get_taxonomy($formal_key);

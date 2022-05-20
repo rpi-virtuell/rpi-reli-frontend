@@ -26,13 +26,9 @@
                 <div class="ct-ghost"></div>
                 <div style="clear: both"></div>
                 <div class="taxonomien">
-                    <div class="author">
-                        <img class="taxonomy-icon"
-                             src="<?php echo __RPI_RELI_FRONTEND_URI__ . "assets/author.svg" ?>"
-                             alt="">
-                        <a href="<?php echo get_site_url() . '/author/' . get_the_author() ?>"> <?php the_author() ?> </a>
-                    </div>
+
                     <?php
+                    echo $frontendHelper->get_tags_as_html('urheberschaft');
                     echo $frontendHelper->get_tags_as_html('formal');
                     echo $frontendHelper->get_tags_as_html('inhalt');
                     ?>
