@@ -102,16 +102,17 @@ class RpiReliFrontendSearch
             }
 
             $currentUser = wp_get_current_user();
-            $result = "";
+
+            $result = '<div class="material-detail-grid">';
+
+
             if (is_user_logged_in() && (get_the_author() === $currentUser->display_name || current_user_can('edit_others_materials'))) {
-                $result .= '<div class="edit-spacer"> <a class="wp-block-button__link" href="' .
+                $result .= '<div class="edit_button"> <a class="wp-block-button__link" href="' .
                     get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() . '&action=edit">' .
                     'Bearbeiten' .
                     '<img src="' . __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg"> </a> </div>';
             }
-
             $result .=
-                '<div class="material-detail-grid">' .
                 '<div class="material-content">' .
                 $content .
                 '</div>';

@@ -25,19 +25,16 @@
     position: relative;
 }
 
-.edit-spacer{
-    position: absolute;
-    top: -100px;
-    width: 100% !important;
-    text-align: end;
+.edit-button{
+    grid-area: edit;
 }
 
-.edit-spacer a{
+.edit-button a{
     height: 100% !important;
     background: #fffbd5;
 }
 
-.edit-spacer img{
+.edit-button img{
     height: 40px;
     width: 40px;
 }
@@ -126,6 +123,7 @@
     .material-detail-grid {
         grid-template-areas:
                 "content"
+                "edit"
                 "taxonomies"
                 "report";
     }
@@ -137,10 +135,13 @@
     }
 
     .material-detail-grid {
-        grid-template-areas:    "content taxonomies"
-                            "content report";
+        grid-template-areas:
+                "content edit"
+                "content taxonomies"
+                "content report";
     }
 }
+
 
 @media only screen and (min-width: 1200px) {
     .material-grid, .search-filters {
