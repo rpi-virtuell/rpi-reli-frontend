@@ -21,7 +21,7 @@
                     </a>
                 <?php } ?>
                 <div class="excerpt">
-                    <?php echo get_the_excerpt() ?>
+                    <?php the_excerpt() ?>
                 </div>
                 <div class="ct-ghost"></div>
                 <div style="clear: both"></div>
