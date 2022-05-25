@@ -27,6 +27,7 @@
 
 .edit-button{
     grid-area: edit;
+    text-align: center;
 }
 
 .edit-button a{
@@ -35,8 +36,8 @@
 }
 
 .edit-button img{
-    height: 40px;
-    width: 40px;
+    height: 30px;
+    width: 30px;
 }
 
 .material-detail-grid {
@@ -55,7 +56,7 @@
 
 .material-content .wp-block-post-featured-image img{
     padding: 10px;
-    width: 60%;
+    width: 100%;
     margin: 20px 0;
     height: auto;
     max-width: 100%;
