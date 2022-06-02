@@ -1,4 +1,5 @@
-<div class="material-grid">
+<div data-prefix="materialien_archive">
+<div class="material-grid entries">
     <?php
     while (have_posts()) :
         the_post();
@@ -28,9 +29,9 @@
                 <div class="taxonomien">
 
                     <?php
-                    echo $frontendHelper->get_tags_as_html('urheberschaft');
-                    echo $frontendHelper->get_tags_as_html('formal');
-                    echo $frontendHelper->get_tags_as_html('inhalt');
+                    echo $frontendHelper->get_tags_as_html('urheberschaft',true);
+                    echo $frontendHelper->get_tags_as_html('formal',true);
+                    echo $frontendHelper->get_tags_as_html('inhalt',true);
                     ?>
                 </div>
         </article>
@@ -41,4 +42,5 @@
         echo $buffer;
     endwhile;
     ?>
+</div>
 </div>

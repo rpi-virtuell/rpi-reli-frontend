@@ -87,33 +87,26 @@ class RpiReliFrontendSearch
 
             $frontend_helper = new MaterialFrontendHelper(RpiReliFrontendSearch::getSearchPage());
 
-            $urheberschaft = $frontend_helper->get_tags_as_html('urheberschaft');
-            $formal = $frontend_helper->get_tags_as_html('formal');
-            $inhalt = $frontend_helper->get_tags_as_html('inhalt');
+            $urheberschaft = $frontend_helper->get_tags_as_html('urheberschaft', true, 'Autor:innen:');
+            $formal = $frontend_helper->get_tags_as_html('formal', true, 'Formal:');
+            $inhalt = $frontend_helper->get_tags_as_html('inhalt', true, 'Inhalt: ');
+
 
             $report = $frontend_helper->get_report_as_html();
-
-            if (!empty($urheberschaft))
-                $urheberschaft = '<h3>Herkunft:</h3>' . $urheberschaft;
-            if (!empty($formal))
-                $formal = '<h3>Formal:</h3>' . $formal;
-            if (!empty($inhalt)) {
-                $inhalt = '<h3>Inhalt:</h3>' . $inhalt;
-            }
-
             $currentUser = wp_get_current_user();
-
             $result = '<div class="material-detail-grid">';
 
-
+            $result .= '<div class="edit-button">';
             if (is_user_logged_in() && (get_the_author() === $currentUser->display_name || current_user_can('edit_others_materials'))) {
-                $result .= '<div class="edit-button"> <a class="wp-block-button__link" href="' .
+                $result .= '<a class="wp-block-button__link" href="' .
                     get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() . '&action=edit">' .
                     'Bearbeiten' .
-                    '<img src="' . __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg"> </a> </div>';
+                    '<img src="' . __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg"> </a>';
             }
+            $result .= '</div>';
             $result .=
                 '<div class="material-content">' .
+                '<h1 class ="material-title">' . get_the_title() . '</h1>' .
                 $content .
                 '</div>';
 
@@ -139,7 +132,6 @@ class RpiReliFrontendSearch
                 '</div>';
 
             return $result;
-
         }
         return $content;
     }
