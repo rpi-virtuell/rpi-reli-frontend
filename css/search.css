@@ -137,7 +137,7 @@
 }
 
 .single-filter {
-    margin: 0 auto;
+    margin: 25px;
 }
 
 .entry-card {
@@ -176,7 +176,7 @@
         grid-row-gap: var(--grid-columns-gap, 30px);
     }
     .search-filters{
-        grid-template-columns:  repeat(2, 1fr);
+        grid-template-columns:  repeat(3, 1fr);
     }
 
     .material-detail-grid {
