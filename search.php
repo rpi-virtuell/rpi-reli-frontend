@@ -91,7 +91,6 @@ class RpiReliFrontendSearch
             $formal = $frontend_helper->get_tags_as_html('formal', true, 'Formal:');
             $inhalt = $frontend_helper->get_tags_as_html('inhalt', true, 'Inhalt: ');
 
-
             $report = $frontend_helper->get_report_as_html();
             $currentUser = wp_get_current_user();
             $result = '<div class="material-detail-grid">';

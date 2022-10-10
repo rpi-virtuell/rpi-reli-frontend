@@ -269,3 +269,16 @@
     font-size: 0.9em
 ;
 }
+details.material-report{
+    max-width: 300px;
+}
+details .material-report-description{
+    padding-left: 40px;
+}
+details.material-report summary span{
+    display: inline-block;
+    width: 20px;
+}
+.available{
+    font-weight: bold;
+}
