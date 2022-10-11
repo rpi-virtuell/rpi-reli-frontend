@@ -28,27 +28,14 @@ class RpiReliFrontendSearch
         add_filter('the_content', array($this, 'alter_frontend_material_content'));
 
 
-	    add_filter('acfe/form/submit/post_args/form=organisationpage-edit', function ($args, $type, $form, $action){
+	    add_action('blocksy:single:content:bottom', function (){
+            ?><details>
+                <summary>Bearbeiten</summary>
+                <?php acfe_form('organisationpage-edit');?>
+            </details>
+            <?php
 
-
-		    return $args;
-
-	    },10,4);
-
-	    add_filter('acfe/form/load/post_id/form=organisationpage-edit', function ($post_id, $form, $action){
-
-
-            //check if current User == author or redakteur
-		    // Get field value
-		    if($_GET['post_id']){
-			    $post_id = $_GET['post_id'];
-            }
-
-
-		    // return
-		    return $post_id;
-
-	    },10,3);
+        });
     }
 
     static function getSearchPage()
