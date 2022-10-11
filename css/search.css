@@ -288,11 +288,18 @@ details.material-report{
     margin-bottom: .7rem!important;
 }
 
+.material-report.outer {
+    background: #fff;
+    margin-top: 50px;
+    box-shadow: 2px 2px 6px #aaa;
+}
 .material-report.inner{
-    border-width: var(--table-border-width, 1px);
+    /*border-width: var(--table-border-width, 1px);
     border-style: var(--table-border-style, solid);
     border-color: var(--table-border-color, var(--border-color));
-    padding: 5px;
+    */
+    padding: 15px;
+
 }
 
 .material-report.inner .unchecked{

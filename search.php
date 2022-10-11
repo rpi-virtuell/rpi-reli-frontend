@@ -125,7 +125,7 @@ class RpiReliFrontendSearch
                     '<div class="material-tags">'.
                     $schlagwort.
                     '</div>' .
-                    '<div class="material-report">' .
+                    '<div class="material-report outer">' .
                     $report .
                     '</div>';
             }
