@@ -84,13 +84,17 @@ class RpiReliFrontendSearch
         });
 
         add_action('blocksy:single:content:bottom', function () {
-            if (get_post_type() === "organisation" && current_user_can('edit_post', get_the_ID())) {
+            if (in_array(get_post_type(),["organisation","fortbildung"]) && current_user_can('edit_post', get_the_ID())) {
                 ?>
                 <details class="organisation-edit-section">
                 <summary class="button">Bearbeiten</summary>
                 <div>
                     <?php
-                    acfe_form('organisationpage-edit');
+                    if(get_post_type("organisation")){
+	                    acfe_form('organisationpage-edit');
+                    }else{
+	                    acfe_form('fortbildung-edit');
+                    }
                     ?>
                 </div>
                 </details>
