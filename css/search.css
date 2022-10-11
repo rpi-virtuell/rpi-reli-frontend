@@ -127,6 +127,7 @@
     flex-direction: column;
     grid-area: report;
     height: fit-content;
+    padding: 10px;
 }
 
 
@@ -184,7 +185,7 @@
                 "content taxonomies"
                 "content report";
 
-        grid-template-rows: 50px auto auto;
+        grid-template-rows: 50px minmax(10px, auto) auto;
     }
 
 }
@@ -269,18 +270,23 @@
 ;
 }
 
+details.material-report{
+    max-width: 400px;
+}
+details.material-report h3{
+    margin-top: 20px;
+    padding-left: 5px;
+}
+
 .material-report.inner{
     border-width: var(--table-border-width, 1px);
     border-style: var(--table-border-style, solid);
     border-color: var(--table-border-color, var(--border-color));
     padding: 5px;
 }
+
 .material-report.inner .unchecked{
     margin: 20px 0 0 20px;
-}
-
-details.material-report{
-    max-width: 400px;
 }
 
 
