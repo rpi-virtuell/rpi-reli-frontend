@@ -328,3 +328,10 @@ details.material-report summary span {
 .missing{
     color: #aaa;
 }
+
+.organisation-referal-links{
+    margin-bottom: 25px;
+}
+.organisation-edit-section{
+    margin-top: 25px;
+}

@@ -28,16 +28,74 @@ class RpiReliFrontendSearch
         add_filter('the_content', array($this, 'alter_frontend_material_content'));
 
 
-	    add_action('blocksy:single:content:bottom', function (){
-		    if (current_user_can( 'edit_post', get_the_ID() )){
-            ?><details>
-                <summary>Bearbeiten</summary>
-                <?php
-		                acfe_form('organisationpage-edit');
+        add_action('blocksy:hero:after', function () {
+            if (is_post_type_archive('organisation')) {
                 ?>
-            </details>
-            <?php
-		    }
+                <h1>Regionalseiten</h1>
+                <?php
+            }
+        });
+
+        add_action('blocksy:hero:custom_meta:after', function (){
+            if (get_post_type() === "organisation")
+            {
+                $contacts = get_field('contacts', get_the_ID());
+                ?>
+                <div class="organisation-contacts">
+                <?php
+                foreach ($contacts as $key => $contact)
+                {
+                    $userId = $contact['contact_person'][0];
+                    $userName = get_the_author_meta('display_name', $userId);
+                    ?>
+                    <a class="organisation-contact-links" href="<?php echo get_author_posts_url($userId) ?>"><?php echo $userName . '('.$contact['contact_section'].')' ?></a>
+                    <br>
+                    <?php
+                }
+                ?>
+                </div>
+                <?php
+            }
+        });
+
+        add_action('blocksy:single:content:top', function () {
+            if (get_post_type() === "organisation") {
+                $url_organisation = get_field('url_organisation', get_the_ID());
+                $url_fortbildungen = get_field('url_fortbildungen', get_the_ID());
+                if (!empty($url_oranisation) || !empty($url_fortbildungen)) {
+                    ?>
+                    <div class="organisation-referal-links">
+                        <?php if (!empty($url_organisation)) { ?>
+                            <a class="button" href="<?php echo $url_organisation ?>" target="_blank"
+                               rel="noopener noreferrer">Link zur Organisation</a>
+                            <?php
+                        }
+                        if (!empty($url_fortbildungen)) {
+                            ?>
+                            <a class="button" href="<?php echo $url_fortbildungen ?>" target="_blank"
+                               rel="noopener noreferrer">Fortbildungsangebote</a>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <?php
+                }
+            }
+        });
+
+        add_action('blocksy:single:content:bottom', function () {
+            if (get_post_type() === "organisation" && current_user_can('edit_post', get_the_ID())) {
+                ?>
+                <details class="organisation-edit-section">
+                <summary class="button">Bearbeiten</summary>
+                <div>
+                    <?php
+                    acfe_form('organisationpage-edit');
+                    ?>
+                </div>
+                </details>
+                <?php
+            }
         });
     }
 
@@ -135,8 +193,8 @@ class RpiReliFrontendSearch
                     '<div class="material-content-tags">' .
                     $inhalt .
                     '</div>' .
-                    '<div class="material-tags">'.
-                    $schlagwort.
+                    '<div class="material-tags">' .
+                    $schlagwort .
                     '</div>' .
                     '<div class="material-report outer">' .
                     $report .
