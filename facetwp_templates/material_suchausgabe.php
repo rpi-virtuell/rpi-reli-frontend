@@ -32,6 +32,7 @@
                     echo $frontendHelper->get_tags_as_html('urheberschaft',true);
                     echo $frontendHelper->get_tags_as_html('formal',true);
                     echo $frontendHelper->get_tags_as_html('inhalt',true);
+                    echo $frontendHelper->get_tags_as_html('tags',true);
                     ?>
                 </div>
         </article>

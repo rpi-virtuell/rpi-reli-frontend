@@ -89,7 +89,8 @@ class RpiReliFrontendSearch
 
             $urheberschaft = $frontend_helper->get_tags_as_html('urheberschaft', true, 'Autor:innen:');
             $formal = $frontend_helper->get_tags_as_html('formal', true, 'Formal:');
-            $inhalt = $frontend_helper->get_tags_as_html('inhalt', true, 'Inhalt: ');
+            $inhalt = $frontend_helper->get_tags_as_html('inhalt', true, 'Inhalt:');
+            $schlagwort = $frontend_helper->get_tags_as_html('tags', true, 'Schlagworte:');
 
             $report = $frontend_helper->get_report_as_html();
             $currentUser = wp_get_current_user();
@@ -121,6 +122,8 @@ class RpiReliFrontendSearch
                     '<div class="material-content-tags">' .
                     $inhalt .
                     '</div>' .
+                    '<div class="material-tags">'.
+                    $schlagwort.
                     '</div>' .
                     '<div class="material-report">' .
                     $report .
