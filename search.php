@@ -28,6 +28,13 @@ class RpiReliFrontendSearch
         add_filter('the_content', array($this, 'alter_frontend_material_content'));
 
 
+	    add_filter('acfe/form/submit/post_args/form=organisationpage-edit', function ($args, $type, $form, $action){
+
+
+		    return $args;
+
+	    },10,4);
+
 	    add_filter('acfe/form/load/post_id/form=organisationpage-edit', function ($post_id, $form, $action){
 
 
