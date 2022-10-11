@@ -127,7 +127,7 @@
     flex-direction: column;
     grid-area: report;
     height: fit-content;
-    padding: 10px;
+
 }
 
 
@@ -274,9 +274,10 @@
 details.material-report{
     max-width: 400px;
 }
-details.material-report h3{
-    margin-top: 20px;
-    padding-left: 5px;
+.material-report h3{
+    padding-top: 1rem;
+    padding-left: .7rem;
+    margin-bottom: .7rem!important;
 }
 
 .material-report.inner{
