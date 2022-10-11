@@ -29,12 +29,15 @@ class RpiReliFrontendSearch
 
 
 	    add_action('blocksy:single:content:bottom', function (){
+		    if (current_user_can( 'edit_post', get_the_ID() )){
             ?><details>
                 <summary>Bearbeiten</summary>
-                <?php acfe_form('organisationpage-edit');?>
+                <?php
+		                acfe_form('organisationpage-edit');
+                ?>
             </details>
             <?php
-
+		    }
         });
     }
 
