@@ -88,6 +88,10 @@ class MaterialFrontendHelper
 
 	function get_report_as_html()
     {
+	    $report = get_field('report');
+
+
+
 
 		$criteria = get_field('kriterien');
 	    $args = ['post_type' => 'material_criteria',
@@ -105,28 +109,45 @@ class MaterialFrontendHelper
 	             )];
 		$crits = get_posts($args);
 	    ob_start();
-		foreach ($crits as $crit){
-			$checked = '';
-			$class = 'missing';
-			if(in_array($crit->post_name,$criteria)){
-				$checked = '✔️';
-				$class = 'available';
-			}
+
+        echo '<h3>Qualitätsmerkmale:</h3>';
+        echo '<div class="material-report inner">';
+
+	    if($report){
 
 
-			?>
-			<details class="material-report">
-				<summary class="<?php echo $class;?>">
-					<span><?php echo $checked;?></span>
-					<?php echo $crit->post_title;?>
-				</summary>
-				<div class="material-report-description">
-					<?php echo $crit->post_content;?>
-				</div>
-			</details>
-			<?php
+            foreach ($crits as $crit){
+                $checked = '&nbsp; ';
+                $class = 'missing';
+                if(in_array($crit->post_name,$criteria)){
+                    $checked = '✅️';
+                    $class = 'available';
+                }
 
-		}
+
+                ?>
+                <details class="material-report">
+                    <summary class="<?php echo $class;?>">
+                        <span><?php echo $checked;?></span>
+                        <?php echo $crit->post_title;?>
+                    </summary>
+                    <div class="material-report-description">
+                        <?php echo $crit->post_content;?>
+                    </div>
+                </details>
+                <?php
+
+
+            }
+	    }else{
+            ?>
+                <div class="unchecked">
+                    <p>Dieser Beitrag wurde nocht nicht redaktionell geprüft.</p>
+                </div>
+            <?php
+	    }
+
+	    echo '</div>';
 		return ob_get_clean();
     }
 

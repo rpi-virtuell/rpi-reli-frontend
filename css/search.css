@@ -269,16 +269,40 @@
     font-size: 0.9em
 ;
 }
+
+.material-report.inner{
+    border-width: var(--table-border-width, 1px);
+    border-style: var(--table-border-style, solid);
+    border-color: var(--table-border-color, var(--border-color));
+    padding: 5px;
+}
+.material-report.inner .unchecked{
+    margin: 20px 0 0 20px;
+}
+
 details.material-report{
-    max-width: 300px;
+    max-width: 400px;
 }
+
+
+details.material-report summary{
+    list-style-type: none;
+}
+
 details .material-report-description{
-    padding-left: 40px;
+    padding-left: 33px;
 }
-details.material-report summary span{
+details.material-report summary span {
     display: inline-block;
-    width: 20px;
+    width: 29px;
+    border: 1px solid var(--table-border-color, var(--border-color));
+    height: 29px;
+    padding-left: 2px;
+    margin-top: 6px;
 }
 .available{
-    font-weight: bold;
+    color: black;
+}
+.missing{
+    color: #aaa;
 }
