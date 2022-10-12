@@ -135,6 +135,21 @@
     height: fit-content;
 
 }
+.material-report.inner .material-report summary{
+    cursor: pointer;
+    padding: 5px;
+}
+
+.material-report.inner .material-report summary:hover{
+    background-color: #e0e0e0;
+    color: black;
+    border-radius: 5px;
+}
+
+.material-report.inner .material-report summary:hover span{
+    border-color: black;
+}
+
 
 
 .search-filters {
@@ -319,8 +334,7 @@ details.material-report summary span {
     width: 29px;
     border: 1px solid var(--table-border-color, var(--border-color));
     height: 29px;
-    padding-left: 2px;
-    margin-top: 6px;
+    text-align: center;
 }
 .available{
     color: black;
@@ -334,4 +348,28 @@ details.material-report summary span {
 }
 .organisation-edit-section{
     margin-top: 25px;
+}
+
+.card-tag-bar{
+position: relative;
+}
+
+.card-tag
+{
+    position: absolute;
+    right: 0;
+    padding: 10px;
+    border-radius: 5px;
+    height: 44px;
+    width: 44px;
+}
+.card-tag.organisation-tag{
+    background-color: #E6AF2E ;
+}
+
+.card-tag.fortbildung-tag{
+   background-color: #70D6FF;
+}
+.card-tag svg{
+    margin: auto;
 }
