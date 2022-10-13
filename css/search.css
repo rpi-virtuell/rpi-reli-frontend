@@ -343,11 +343,19 @@ details.material-report summary span {
     color: #aaa;
 }
 
-.organisation-referal-links{
+.organisation-referral-links{
     margin-bottom: 25px;
 }
 .organisation-edit-section{
     margin-top: 25px;
+    text-align: right;
+}
+.organisation-edit-section div{
+    text-align: left;
+}
+
+.organisation-edit-section .organisation-edit-form{
+    background-color: white;
 }
 
 .card-tag-bar{
@@ -372,4 +380,38 @@ position: relative;
 }
 .card-tag svg{
     margin: auto;
+}
+
+.fortbildung-date{
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.fortbildung-organisation a {
+    width: fit-content;
+}
+
+.fortbildung-organisation .single-organisation {
+    width: fit-content;
+    background-color: #fff;
+    border-radius: 15px;
+}
+.fortbildung-organisation .single-organisation .single-organisation-spacer{
+    padding: 15px;
+}
+.fortbildung-organisation .single-organisation:hover{
+    background-color: #e0e0e0;
+}
+
+.fortbildung-organisation img{
+    width: 80px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.fortbildung-joinlink{
+    margin-top: 25px;
 }
