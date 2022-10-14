@@ -66,7 +66,6 @@ class RpiReliFrontendFormsHandler{
 
 				list($timestamp,$date,$duration,$hint) = explode('|',$termin->meta_value);
 
-				$termin->post_id = $fortbildung->ID;
 				$termin->title = $fortbildung->post_title;
 				$termin->subtitle = get_field('subtitle',$termin->post_id);
 				$termin->excerpt = $fortbildung->post_excerpt;
