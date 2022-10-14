@@ -26,15 +26,18 @@ class RpiReliFrontendFormsHandler{
 
 	/**
 	 * gibt alle termine zwischen zwei timestamps als Objekte aus
-	 * use:	RpiReliFrontendFormsHandler::get_termine();
+	 * @use:	RpiReliFrontendFormsHandler::get_termine();
+	 * @example : $termine = RpiReliFrontendFormsHandler::get_termine('ASC', $von_timestamp, $von_timestamp);
 	 *
 	 * @param string $order ASC|DESC
 	 * @param timestamp $after_ts
 	 * @param timestamp $before_ts
+	 * @param integer $post_id      ID einer Fortbildung
 	 *
 	 * @return array
 	 */
-	static function get_termine ($order = 'ASC', $after_ts = false, $before_ts = false ) {
+	static function get_termine ( $order = 'ASC', $after_ts = false, $before_ts = false, $post_id =0 ) {
+
 
 		$after_ts = $after_ts?$after_ts:time()-84600;
 		$before_ts = $before_ts?$before_ts:strtotime('2100/01/01');
@@ -43,10 +46,15 @@ class RpiReliFrontendFormsHandler{
 
 		$termine = array();
 
+		$sub_query = '';
+		if($post_id > 0){
+			$sub_query =  'AND post_id = '. intval($post_id);
+		}
+
 		$querystr = "
 		    SELECT DISTINCT post_id, meta_value 
 		    FROM $wpdb->postmeta 
-		    WHERE meta_key = 'fortbildung_termin' AND  meta_value < $before_ts  AND meta_value > $after_ts
+		    WHERE meta_key = 'fortbildung_termin' AND  meta_value < $before_ts  AND meta_value > $after_ts $sub_query
 		    ORDER BY meta_value $order
 		";
 		$results = $wpdb->get_results( $querystr, OBJECT );
