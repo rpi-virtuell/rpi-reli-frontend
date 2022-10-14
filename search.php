@@ -27,7 +27,6 @@ class RpiReliFrontendSearch
         add_shortcode('rpi-reli-frontend-search', array($this, 'search'));
         add_filter('the_content', array($this, 'alter_frontend_material_content'));
 
-
         add_action('blocksy:hero:after', function () {
             if (is_post_type_archive('organisation')) {
                 ?>
@@ -295,3 +294,6 @@ class RpiReliFrontendSearch
 }
 
 new RpiReliFrontendSearch();
+
+
+include_once "helper/forms_handler.php";
