@@ -32,11 +32,11 @@ class RpiReliFrontendFormsHandler{
 	 * @param string $order ASC|DESC
 	 * @param timestamp $after_ts
 	 * @param timestamp $before_ts
-	 * @param integer $post_id      ID einer Fortbildung
+	 * @param array $post__in     Termine beschränkt aus IDs der Fortbildungen
 	 *
 	 * @return array
 	 */
-	static function get_termine ( $order = 'ASC', $after_ts = false, $before_ts = false, $post_id =0 ) {
+	static function get_termine ( $order = 'ASC', $after_ts = false, $before_ts = false, $post__in = array() ) {
 
 
 		$after_ts = $after_ts?$after_ts:time()-84600;
@@ -47,8 +47,8 @@ class RpiReliFrontendFormsHandler{
 		$termine = array();
 
 		$sub_query = '';
-		if($post_id > 0){
-			$sub_query =  'AND post_id = '. intval($post_id);
+		if(is_array($post__in) && count($post__in) > 0){
+			$sub_query =  'AND post_id in ('. $post__in .')';
 		}
 
 		$querystr = "
