@@ -25,16 +25,45 @@ class RpiReliFrontendFormsHandler{
 
 
 	/**
-	 * gibt alle termine zwischen zwei timestamps als Objekte aus
-	 * @use:	RpiReliFrontendFormsHandler::get_termine();
-	 * @example : $termine = RpiReliFrontendFormsHandler::get_termine('ASC', $von_timestamp, $von_timestamp);
+	 * gibt Forbildungstermine zwischen zwei Timestamps als Array von Standardobjekten zurück
+	 *
+	 * @use:	RpiReliFrontendFormsHandler::get_termine(string $order, $string $von_timestamp, string $bis_timestamp, post_ids[] $post__in );
+	 * @example : $termine = RpiReliFrontendFormsHandler::get_termine('ASC', $von_timestamp, $bis_timestamp);
 	 *
 	 * @param string $order ASC|DESC
 	 * @param timestamp $after_ts
 	 * @param timestamp $before_ts
-	 * @param array $post__in     Termine beschränkt aus IDs der Fortbildungen
+	 * @param array $post__in     Termine beschränkt aus IDs der Fortbildungen, notwendig
+	 *                            um Fortbildungen einer bestimmten taxonomie anzuzeigen
+	 * @example
+	 *                            $posts = get_posts(
+	 *                              [
+	 *                                  'post_type'=>'fortbildung',
+	 *                                  'numberposts'=>-1,
+	 *                                  'tax_query'=>[
+	 *                                      'taxonomy'=>'bundesland',
+	 *                                      'field'=>'slug',
+	 *                                      'terms'=>['hessen','bayern']
+	 *                                  ]
+	 *                              ]
+	 *                            );
+	 *                            $ids = [];
+	 *                            foreach($posts as $post){
+	 *                                $ids[] = $post->ID
+	 *                            }
+	 *                            $termine = get_termine('ASC', false, false,$ids);
+	 * @return stdClass[] array
 	 *
-	 * @return array
+	 *      $termin->post_id
+	 *      $termin->title
+	 * 	    $termin->subtitle
+	 * 	    $termin->excerpt
+	 * 	    $termin->timestamp
+	 * 	    $termin->datum_uhrzeit
+	 * 	    $termin->dauer
+	 * 	    $termin->hinweis
+	 * 	    $termin->image
+
 	 */
 	static function get_termine ( $order = 'ASC', $after_ts = false, $before_ts = false, $post__in = array() ) {
 
