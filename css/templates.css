@@ -1,0 +1,90 @@
+.fortbildung-date {
+    padding: 10px;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.fortbildung-organisation a {
+    width: fit-content;
+}
+
+.fortbildung-organisation .single-organisation ,
+.fortbildung-contactperson .single-contactperson,
+.organisation-contactperson .single-contactperson{
+    width: fit-content;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.fortbildung-organisation .single-organisation .single-organisation-spacer,
+.fortbildung-contactperson .single-contactperson .single-contactperson-spacer,
+.organisation-contactperson .single-contactperson .single-contactperson-spacer
+{
+    padding: 5px;
+}
+
+.fortbildung-organisation .single-organisation:hover ,
+.fortbildung-contactperson .single-contactperson:hover,
+.organisation-contactperson .single-contactperson:hover{
+    background-color: #e0e0e0;
+}
+
+.fortbildung-organisation img,
+.fortbildung-contactperson img,
+.organisation-contactperson img{
+    width: 80px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.fortbildung-joinlink {
+    text-align: center;
+}
+
+.reli-post-grid {
+    display: grid;
+    grid-template-areas:    'top-section'
+                            'content';
+    position: relative;
+}
+
+.reli-content {
+    grid-area: content;
+    padding: 20px;
+    width: 70%;
+
+}
+
+.reli-top-section {
+    grid-area: top-section;
+    display: flex;
+    background-color: var(--reli-background-color);
+}
+
+.reli-header {
+    width: 70%;
+    padding: 30px;
+}
+
+.reli-sidebar {
+    width: 30%;
+    background-color: white;
+    position: absolute;
+    float: right;
+    right: 10px;
+    top: 30px;
+    box-shadow: 2px 2px 6px #aaa;
+}
+
+.reli-sidebar-section {
+    padding: 20px;
+    border: 1px solid lightgrey;
+}
+.organisation-referral-links{
+    text-align: center;
+}
+.organisation-referral-links a{
+    margin: 5px 0;
+}

@@ -1,3 +1,7 @@
+<div>
+    <?php the_post_thumbnail(); ?>
 
-
-<?php
+</div>
+<div>
+    <?php the_content(); ?>
+</div>

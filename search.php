@@ -27,6 +27,7 @@ class RpiReliFrontendSearch
         add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style('rpi_reli_frontend_search_style', plugin_dir_url(__FILE__) . 'css/search.css');
             wp_enqueue_style('rpi_reli_frontend_forms_style', plugin_dir_url(__FILE__) . 'css/forms.css');
+            wp_enqueue_style('rpi_reli_frontend_templates_style', plugin_dir_url(__FILE__) . 'css/templates.css');
             wp_enqueue_script('rpi_reli_frontend_js', plugin_dir_url(__FILE__) . 'js/search_filters.js', array(), false, true);
             wp_enqueue_script('rpi_reli_frontend_forms_js', plugin_dir_url(__FILE__) . 'js/forms.js', array(), false, true);
         });
@@ -39,76 +40,6 @@ class RpiReliFrontendSearch
                 <h1>Regionalseiten</h1>
                 <?php
             }
-        });
-
-        add_action('blocksy:hero:custom_meta:after', function (){
-            if (get_post_type() === "organisation")
-            {
-                $contacts = get_field('contacts', get_the_ID());
-                if (!empty($contacts))
-                {
-                    ?>
-                    <div class="organisation-contacts">
-                        <h5>Ansprechpartner:innen</h5>
-                        <?php
-                        foreach ($contacts as $key => $contact)
-                        {
-                            $userId = $contact['contact_person'];
-                            $userName = get_the_author_meta('display_name', $userId);
-                            ?>
-                            <a class="organisation-contact-links" href="<?php echo get_author_posts_url($userId) ?>"><?php echo $userName . '('.$contact['contact_section'].')' ?></a>
-                            <br>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                    <?php
-                }
-
-            }
-        });
-
-        add_action('blocksy:hero:description:before', function (){
-          if (get_post_type() === "fortbildung" && is_single()){
-
-              $startDate = get_field('startdate', get_the_ID());
-              $endDate = get_field('enddate', get_the_ID());
-
-              if (!empty($startDate) && !empty($endDate))
-              ?>
-              <div class="fortbildung-date">
-                <span class=""><?php echo $startDate . ' - ' . $endDate ?></span>
-              </div>
-              <?php
-              $organisationIds = get_field('organisation', get_the_ID());
-              if (!empty($organisationIds)){
-                  ?>
-                  <div class="fortbildung-organisation">
-                      <h4>Veranstalter</h4>
-                      <?php
-                  foreach ($organisationIds as $organisationId)
-                  {
-                      ?>
-                      <div class="single-organisation">
-                          <a href="<?php echo get_post_permalink($organisationId) ?>">
-                              <div class="single-organisation-spacer">
-
-                              <?php
-                              echo get_the_post_thumbnail($organisationId);
-                              echo get_the_title($organisationId)
-                              ?>
-                              </div>
-                          </a>
-                      </div>
-
-                      <?php
-                  }
-                  ?>
-                  </div>
-                  <?php
-              }
-
-          }
         });
 
         add_action('blocksy:single:content:top', function () {
@@ -140,42 +71,6 @@ class RpiReliFrontendSearch
                 </div>
                 <?php
                 echo ob_get_clean();
-
-            }
-        });
-
-        add_action('blocksy:single:bottom', function (){
-            if (get_post_type() === "fortbildung"){
-                ?>
-                <div class="fortbildung-joinlink">
-                    <a class="button" href="<?php echo 'https://test.rpi-virtuell.de/anmeldeformular/?fobi='.get_the_ID()?>">Einschreiben</a>
-                </div>
-                <?php
-            }
-        });
-
-        add_action('blocksy:single:content:top', function () {
-            if (get_post_type() === "organisation") {
-                $url_organisation = get_field('url_organisation', get_the_ID());
-                $url_fortbildungen = get_field('url_fortbildungen', get_the_ID());
-                if (!empty($url_oranisation) || !empty($url_fortbildungen)) {
-                    ?>
-                    <div class="organisation-referral-links">
-                        <?php if (!empty($url_organisation)) { ?>
-                            <a class="button" href="<?php echo $url_organisation ?>" target="_blank"
-                               rel="noopener noreferrer">Link zur Organisation</a>
-                            <?php
-                        }
-                        if (!empty($url_fortbildungen)) {
-                            ?>
-                            <a class="button" href="<?php echo $url_fortbildungen ?>" target="_blank"
-                               rel="noopener noreferrer">Fortbildungsangebote</a>
-                            <?php
-                        }
-                        ?>
-                    </div>
-                    <?php
-                }
             }
         });
 
