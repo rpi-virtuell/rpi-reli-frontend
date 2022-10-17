@@ -1,0 +1,13 @@
+summary::-webkit-details-marker {
+    display: none;
+}
+summary:before {
+    content: "►";
+}
+details.open summary:before {
+    content: "▼";
+}
+summary:before, summary:after {
+    font-size:.8em;
+    margin-right:6px;
+}

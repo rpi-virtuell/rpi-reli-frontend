@@ -26,7 +26,9 @@ class RpiReliFrontendSearch
 
         add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style('rpi_reli_frontend_search_style', plugin_dir_url(__FILE__) . 'css/search.css');
+            wp_enqueue_style('rpi_reli_frontend_forms_style', plugin_dir_url(__FILE__) . 'css/forms.css');
             wp_enqueue_script('rpi_reli_frontend_js', plugin_dir_url(__FILE__) . 'js/search_filters.js', array(), false, true);
+            wp_enqueue_script('rpi_reli_frontend_forms_js', plugin_dir_url(__FILE__) . 'js/forms.js', array(), false, true);
         });
         add_shortcode('rpi-reli-frontend-search', array($this, 'search'));
         add_filter('the_content', array($this, 'alter_frontend_material_content'));
