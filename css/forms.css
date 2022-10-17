@@ -1,5 +1,13 @@
+:root{
+    --specialFontFamily: 'Architects Daughter', Sans-Serif;
+    --h1FontSize: 40px;
+    --h2FontSize: 24px;
+}
+
+
 summary::-webkit-details-marker {
     display: none;
+}
 }
 summary:before {
     content: "►";
@@ -10,4 +18,57 @@ details.open summary:before {
 summary:before, summary:after {
     font-size:.8em;
     margin-right:6px;
+}
+
+.organisation-edit-form{
+    padding: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*.organisation-edit-section.open .button {*/
+/*    margin-bottom: var(--content-vertical-spacing);*/
+/*}*/
+.organisation-edit-section #wrap{
+    margin-top: var(--content-vertical-spacing)
+}
+.single-organisation .acf-field,.single-fortbildung .acf-field{
+    max-width: var(--narrow-container-max-width);
+
+}
+.single-organisation .acf-fields > .acf-field,.single-fortbildung .acf-fields > .acf-field{
+    border-top: 0!important;
+}
+.single-organisation .acf-field[data-name="name_organisation"] input,.single-fortbildung .acf-field[data-name="title"] input{
+    font-family: var(--specialFontFamily);
+    color: var(--headings-color);
+    font-size: var(--h1FontSize)!important;
+    line-height: 2;
+    height: fit-content!important;
+
+}
+.single-organisation .acf-field[data-name="name_organisation"], .single-fortbildung .acf-field[data-name="title"],
+.single-organisation .acf-field[data-name="subtitle_organisation"], .single-fortbildung .acf-field[data-name="subtitle"]
+{
+    max-width: var(--normal-container-max-width);
+
+
+}
+
+.single-organisation .acf-field[data-name="subtitle_organisation"] input,.single-fortbildung .acf-field[data-name="subtitle"] input{
+    font-family: var(--specialFontFamily);
+    color: var(--headings-color);
+    font-size: var(--h2FontSize)!important;
+    height: fit-content!important;
+
+}
+.single-organisation .acf-field[data-name="url_organisation"] input,
+.single-organisation .acf-field[data-name="url_fortbildungen"] input,
+.single-fortbildung .acf-field[data-name="excerpt"] textarea{
+    font-size: var(--fontSize)!important;
+
+}
+.single-organisation .acf-field[data-name="content"],.single-fortbildung .acf-field[data-name="content"]{
+    font-size: var(--fontSize)!important;
+
 }
