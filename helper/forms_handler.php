@@ -35,7 +35,8 @@ class RpiReliFrontendFormsHandler{
 	 * @param timestamp $before_ts
 	 * @param array $post__in     Termine beschränkt aus IDs der Fortbildungen, notwendig
 	 *                            um Fortbildungen einer bestimmten taxonomie anzuzeigen
-	 * @example
+	 *
+	 *                            @example:
 	 *                            $posts = get_posts(
 	 *                              [
 	 *                                  'post_type'=>'fortbildung',
