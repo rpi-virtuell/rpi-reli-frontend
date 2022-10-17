@@ -415,3 +415,31 @@ position: relative;
 .fortbildung-joinlink{
     margin-top: 25px;
 }
+
+
+.reli-post-grid{
+    display: grid;
+    grid-template-areas:    'top-section'
+                            'content';
+}
+.reli-content{
+    grid-area: content;
+    padding: 20px;
+
+}
+.reli-top-section{
+    grid-area: top-section;
+    display: flex;
+}
+.reli-header{
+    width: 70%;
+    padding: 30px;
+}
+.reli-sidebar{
+    width: 70%;
+
+}
+.reli-sidebar-section{
+    padding:  20px 10px;
+    border: 1px solid lightgrey;
+}

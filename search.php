@@ -12,6 +12,10 @@ License: A "Slug" license name e.g. GPL2
 
 class RpiReliFrontendSearch
 {
+    static $post_types  = [
+            'fortbildung',
+        'organisation',
+    ];
     function __construct()
     {
 
@@ -63,7 +67,7 @@ class RpiReliFrontendSearch
         });
 
         add_action('blocksy:hero:description:before', function (){
-          if (get_post_type() === "fortbildung"){
+          if (get_post_type() === "fortbildung" && is_single()){
 
               $startDate = get_field('startdate', get_the_ID());
               $endDate = get_field('enddate', get_the_ID());
@@ -105,6 +109,39 @@ class RpiReliFrontendSearch
           }
         });
 
+        add_action('blocksy:single:content:top', function () {
+            if (in_array(get_post_type(), RpiReliFrontendSearch::$post_types) && is_single()) {
+                ob_start();
+            }
+        });
+        add_action('blocksy:single:content:bottom', function () {
+            $postType = get_post_type();
+            if (in_array($postType, RpiReliFrontendSearch::$post_types) && is_single()) {
+                ob_end_clean();
+
+                //Ausgabe von neuen Templates
+
+                ob_start();
+                ?>
+                <div class="reli-post-grid">
+                    <div class="reli-top-section <?php echo $postType ?>">
+                        <div class="reli-header <?php echo $postType ?>">
+                            <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/header.php'; ?>
+                        </div>
+                        <div class="reli-sidebar <?php echo $postType ?>">
+                            <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/sidebar.php'; ?>
+                        </div>
+                    </div>
+                    <div class="reli-content <?php echo $postType ?>">
+                        <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/content.php'; ?>
+                    </div>
+                </div>
+                <?php
+                echo ob_get_clean();
+
+            }
+        });
+
         add_action('blocksy:single:bottom', function (){
             if (get_post_type() === "fortbildung"){
                 ?>
@@ -140,22 +177,24 @@ class RpiReliFrontendSearch
             }
         });
 
-        add_action('blocksy:single:top', function () {
+        add_action('blocksy:content:top', function () {
 
-            if (in_array(get_post_type(),["organisation","fortbildung"]) && current_user_can('edit_post', get_the_ID())) {
+            if (in_array(get_post_type(), ["organisation", "fortbildung"]) && current_user_can('edit_post', get_the_ID())) {
                 ?>
-                <details class="organisation-edit-section">
-                <summary class="button">Bearbeiten</summary>
-                <div class="organisation-edit-form">
-                    <?php
-                    if(get_post_type() === 'organisation'){
-	                    acfe_form('organisationpage-edit');
-                    }else{
-	                    acfe_form('fortbildung-edit');
-                    }
-                    ?>
+                <div class="ct-container">
+                    <details class="organisation-edit-section">
+                        <summary class="button">Bearbeiten</summary>
+                        <div class="organisation-edit-form">
+                            <?php
+                            if (get_post_type() === 'organisation') {
+                                acfe_form('organisationpage-edit');
+                            } else {
+                                acfe_form('fortbildung-edit');
+                            }
+                            ?>
+                        </div>
+                    </details>
                 </div>
-                </details>
                 <?php
             }
         });
