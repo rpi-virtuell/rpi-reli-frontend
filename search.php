@@ -31,6 +31,7 @@ class RpiReliFrontendSearch
             wp_enqueue_style('rpi_reli_frontend_templates_style', plugin_dir_url(__FILE__) . 'css/templates.css');
             wp_enqueue_script('rpi_reli_frontend_js', plugin_dir_url(__FILE__) . 'js/search_filters.js', array(), false, true);
             wp_enqueue_script('rpi_reli_frontend_forms_js', plugin_dir_url(__FILE__) . 'js/forms.js', array(), false, true);
+            wp_enqueue_script('rpi_reli_frontend_scripts_js', plugin_dir_url(__FILE__) . 'js/scripts.js', array(), false, true);
         });
         add_shortcode('rpi-reli-frontend-search', array($this, 'search'));
 
