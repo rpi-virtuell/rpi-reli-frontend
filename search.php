@@ -15,6 +15,7 @@ class RpiReliFrontendSearch
     static $post_types  = [
             'fortbildung',
         'organisation',
+        'materialien'
     ];
     function __construct()
     {
@@ -32,7 +33,6 @@ class RpiReliFrontendSearch
             wp_enqueue_script('rpi_reli_frontend_forms_js', plugin_dir_url(__FILE__) . 'js/forms.js', array(), false, true);
         });
         add_shortcode('rpi-reli-frontend-search', array($this, 'search'));
-        add_filter('the_content', array($this, 'alter_frontend_material_content'));
 
         add_action('blocksy:hero:after', function () {
             if (is_post_type_archive('organisation')) {
@@ -76,11 +76,12 @@ class RpiReliFrontendSearch
 
         add_action('blocksy:content:top', function () {
 
-            if (in_array(get_post_type(), ["organisation", "fortbildung"]) && current_user_can('edit_post', get_the_ID())) {
+            if (in_array(get_post_type(), ["organisation", "fortbildung"]) && is_single() && current_user_can('edit_post', get_the_ID())) {
                 ?>
                 <div class="ct-container">
-                    <details class="organisation-edit-section">
-                        <summary class="button">Bearbeiten</summary>
+                    <details class="edit-section">
+                        <summary class="button">Bearbeiten
+                            <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>"></summary>
                         <div class="organisation-edit-form">
                             <?php
                             if (get_post_type() === 'organisation') {
@@ -93,6 +94,19 @@ class RpiReliFrontendSearch
                     </details>
                 </div>
                 <?php
+            }
+            if (get_post_type() === 'materialien') {
+                if (is_user_logged_in() && (get_the_author() === get_current_user() || current_user_can('edit_others_materials'))) {
+                    ?>
+                    <div class="ct-container edit-section">
+                        <a class="button"
+                           href="<?php echo get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() ?> &action=edit">
+                            Bearbeiten
+                            <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>">
+                        </a>
+                    </div>
+                    <?php
+                }
             }
         });
 
@@ -170,63 +184,6 @@ class RpiReliFrontendSearch
         return ob_get_clean();
     }
 
-    function alter_frontend_material_content($content)
-    {
-
-        if (get_post_type(get_the_ID()) === "materialien") {
-
-            $frontend_helper = new MaterialFrontendHelper(RpiReliFrontendSearch::getSearchPage());
-
-            $urheberschaft = $frontend_helper->get_tags_as_html('urheberschaft', true, 'Autor:innen:');
-            $formal = $frontend_helper->get_tags_as_html('formal', true, 'Formal:');
-            $inhalt = $frontend_helper->get_tags_as_html('inhalt', true, 'Inhalt:');
-            $schlagwort = $frontend_helper->get_tags_as_html('tags', true, 'Schlagworte:');
-
-            $report = $frontend_helper->get_report_as_html();
-            $currentUser = wp_get_current_user();
-            $result = '<div class="material-detail-grid">';
-
-            $result .= '<div class="edit-button">';
-            if (is_user_logged_in() && (get_the_author() === $currentUser->display_name || current_user_can('edit_others_materials'))) {
-                $result .= '<a class="wp-block-button__link" href="' .
-                    get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() . '&action=edit">' .
-                    'Bearbeiten' .
-                    '<img src="' . __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg"> </a>';
-            }
-            $result .= '</div>';
-            $result .=
-                '<div class="material-content">' .
-                '<h1 class ="material-title">' . get_the_title() . '</h1>' .
-                $content .
-                '</div>';
-
-            if (!empty($urheberschaft) || !empty($formal) || !empty($inhalt)) {
-                $result .=
-                    '<div class="material-taxonomies">' .
-                    '<div class="material-origin">' .
-                    $urheberschaft .
-                    '</div>' .
-                    '<div class="material-formal-tags">' .
-                    $formal .
-                    '</div>' .
-                    '<div class="material-content-tags">' .
-                    $inhalt .
-                    '</div>' .
-                    '<div class="material-tags">' .
-                    $schlagwort .
-                    '</div>' .
-                    '<div class="material-report outer">' .
-                    $report .
-                    '</div>';
-            }
-
-            $result .=
-                '</div>';
-
-            return $result;
-        }
-        return $content;
-    }
 }
 
 new RpiReliFrontendSearch();

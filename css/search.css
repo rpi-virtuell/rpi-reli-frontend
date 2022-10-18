@@ -2,7 +2,7 @@
     --reli-accent-color: var(--linkInitialColor);
     --reli-accent-color-hover: var(--linkHoverColor);
 
-    --reli-background-color : ghostwhite;
+    --reli-background-color : #DCE2F0;
 }
 
 .hidden {
@@ -334,7 +334,7 @@ details .material-report-description{
 details.material-report summary span {
     display: inline-block;
     width: 29px;
-    border: 1px solid var(--table-border-color, var(--border-color));
+    border: 1px solid #aaa;
     height: 29px;
     text-align: center;
 }
@@ -344,15 +344,15 @@ details.material-report summary span {
 .missing{
     color: #aaa;
 }
-.organisation-edit-section{
+.edit-section {
     margin-top: 25px;
     text-align: right;
 }
-.organisation-edit-section div{
+.edit-section div{
     text-align: left;
 }
 
-.organisation-edit-section .organisation-edit-form{
+.edit-section .organisation-edit-form{
     background-color: white;
 }
 

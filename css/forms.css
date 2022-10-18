@@ -8,7 +8,7 @@
 summary::-webkit-details-marker {
     display: none;
 }
-}
+
 summary:before {
     content: "►";
 }
@@ -26,10 +26,10 @@ summary:before, summary:after {
     margin-right: auto;
 }
 
-/*.organisation-edit-section.open .button {*/
+/*.edit-section.open .button {*/
 /*    margin-bottom: var(--content-vertical-spacing);*/
 /*}*/
-.organisation-edit-section #wrap{
+.edit-section #wrap{
     margin-top: var(--content-vertical-spacing)
 }
 .single-organisation .acf-field,.single-fortbildung .acf-field{

@@ -43,3 +43,49 @@ if (!empty($url_oranisation) || !empty($url_fortbildungen)) {
     </div>
     <?php
 }
+$fortbildungen = get_field('fortbildungen', get_the_ID());
+if (!empty($fortbildungen)){
+
+    foreach ($fortbildungen as $fortbildung){
+
+            ?>
+         <details>
+        <summary>
+            <?php
+            echo $fortbildung->post_title;
+            ?>
+        </summary>
+             <div>
+                 <a href="<?php echo get_post_permalink($fortbildung->ID); ?>">Zur Fortbildung</a>
+                 <?php
+                $termine = get_field('termine',$fortbildung->ID);
+                 ?>
+                 <?php
+                 // TODO: REFACTOR
+                 foreach ($termine as $termin) {
+                     ?>
+                     <div class="single-termin">
+                         <div class="termin-date-box">
+                             <div class="termin-day"><?php echo date('d',strtotime($termin['termin_datumzeit'])) ?></div>
+                             <div class="termin-month"><?php echo date('M Y',strtotime($termin['termin_datumzeit'])) ?></div>
+                         </div>
+                         <div class="termin-daytime">
+                             <?php
+                             $startTime = date('H:i', strtotime($termin['termin_datumzeit']));
+                             $endTime = date('H:i', strtotime($termin['termin_datumzeit']) + 3600 * $termin['termin_dauer']);
+                             echo $startTime . ' - ' . $endTime . ' Uhr';
+                             ?>
+                             <?php if (!empty($termin['termin_hinweis'])) { ?>
+                                 <div class="termin-note"><?php echo $termin['termin_hinweis']; ?></div>
+                             <?php } ?>
+                         </div>
+                     </div>
+                     <?php
+                 }
+                 ?>
+             </div>
+         </details>
+        <?php
+    }
+
+}

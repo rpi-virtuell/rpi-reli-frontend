@@ -8,11 +8,20 @@ if (!empty($termine)) {
         foreach ($termine as $termin) {
             ?>
             <div class="single-termin">
-                <span class="termin-date">Datum: <?php echo $termin['termin_datumzeit']; ?></span><br>
-                <span class="termin-duration">Dauer: <?php echo $termin['termin_dauer']; ?> Stunde/n</span><br>
-                <?php if (!empty($termin['termin_hinweis'])) { ?>
-                    <span class="termin-note">Hinweis: <?php echo $termin['termin_hinweis']; ?></span>
-                <?php } ?>
+                <div class="termin-date-box">
+                    <div class="termin-day"><?php echo date('d',strtotime($termin['termin_datumzeit'])) ?></div>
+                    <div class="termin-month"><?php echo date('M Y',strtotime($termin['termin_datumzeit'])) ?></div>
+                </div>
+                <div class="termin-daytime">
+                    <?php
+                    $startTime = date('H:i', strtotime($termin['termin_datumzeit']));
+                    $endTime = date('H:i', strtotime($termin['termin_datumzeit']) + 3600 * $termin['termin_dauer']);
+                    echo $startTime . ' - ' . $endTime . ' Uhr';
+                    ?>
+                    <?php if (!empty($termin['termin_hinweis'])) { ?>
+                        <div class="termin-note"><?php echo $termin['termin_hinweis']; ?></div>
+                    <?php } ?>
+                </div>
             </div>
             <?php
         }

@@ -61,6 +61,8 @@
     grid-area: top-section;
     display: flex;
     background-color: var(--reli-background-color);
+    margin: calc(var(--boxed-content-spacing)*-1) calc(var(--boxed-content-spacing)*-1) 0;
+    padding: var(--boxed-content-spacing) var(--boxed-content-spacing) 0;
 }
 
 .reli-header {
@@ -87,4 +89,41 @@
 }
 .organisation-referral-links a{
     margin: 5px 0;
+}
+.wp-block-post-featured-image img{
+    object-fit: contain;
+}
+.wp-block-post-featured-image{
+    margin: 25px 0;
+}
+.reli-sidebar-section td {
+    border-color: white;
+}
+.reli-report-section {
+    background-color: var(--reli-background-color);
+}
+
+/* Termin Box Display */
+.single-termin{
+    display: flex;
+    margin: 5px 0;
+}
+.single-termin .termin-date-box{
+    text-align: center;
+    border-right: 3px solid var(--reli-accent-color);
+    padding-right: 10px;
+    color: var(--reli-accent-color);
+}
+.single-termin .termin-daytime{
+    margin: auto 5px;
+}
+.single-termin .termin-day{
+    font-size: xxx-large;
+}
+.single-termin .termin-month{
+    font-size: small;
+}
+.single-termin .termin-note{
+    padding-left: 10px;
+    width: fit-content;
 }
