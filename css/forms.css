@@ -4,9 +4,13 @@
     --h2FontSize: 24px;
 }
 
-
 summary::-webkit-details-marker {
     display: none;
+
+}
+summary{
+    list-style: none;
+    margin-left:6px;
 }
 
 summary:before {
@@ -17,7 +21,25 @@ details.open summary:before {
 }
 summary:before, summary:after {
     font-size:.8em;
-    margin-right:6px;
+
+}
+.reli-sidebar details #wrap{
+
+    padding: 10px 10px 10px 20px;
+}
+
+.reli-sidebar summary::before {
+    font-size: .8em;
+    margin-right: 10px;
+    width: 20px;
+    display: block;
+    float: left;
+    height: 30px;
+    padding-top: 2px;
+}
+
+.reli-sidebar details .single-termin{
+    padding-left: 20px;
 }
 
 .organisation-edit-form{
