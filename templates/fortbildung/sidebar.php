@@ -82,6 +82,6 @@ if (!empty($contactPersons)) {
 ?>
 <div class="reli-sidebar-section">
     <div class="fortbildung-joinlink">
-        <a class="button" href="<?php echo 'https://test.rpi-virtuell.de/anmeldeformular/?fobi=' . get_the_ID() ?>">Einschreiben</a>
+        <?php  MaterialFrontendHelper::fortbildung_enroll_button(get_the_ID()); ?>
     </div>
 </div>

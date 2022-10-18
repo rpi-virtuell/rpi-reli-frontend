@@ -151,5 +151,35 @@ class MaterialFrontendHelper
 		return ob_get_clean();
     }
 
+    static function fortbildung_enroll_button($fobi=0){
+
+	    $args = [
+		    'post_type' => 'anmeldung',
+		    'meta_query'=>[
+			    'relation' => 'AND',
+			    [
+				    'key'=>'user',
+				    'value'=> get_current_user_id(),
+				    'compare'=>'=',
+				    'type' => 'NUMERIC'
+			    ],
+			    [
+				    'key'=>'fobi',
+				    'value'=> intval($fobi),
+				    'compare'=>'=',
+				    'type' => 'NUMERIC'
+			    ]
+		    ]
+	    ];
+	    $posts = get_posts($args);
+
+        if(count($posts)>1){
+            echo "Du bist für diese  Fortbildung angemeldet";
+        }else{
+
+            echo   '<a class="button" href="'. home_url() . '/anmeldeformular/?fobi=' . $fobi .'">Einschreiben</a>';
+        }
+
+    }
 
 }
