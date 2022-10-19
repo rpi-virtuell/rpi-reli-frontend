@@ -127,3 +127,12 @@
     padding-left: 10px;
     width: fit-content;
 }
+
+.reli-sidebar-fortbildungen summary{
+    background-color: #fff;
+    border-radius: 5px;
+}
+.reli-sidebar-fortbildungen summary:hover{
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
