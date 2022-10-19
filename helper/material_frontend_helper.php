@@ -23,7 +23,7 @@ class MaterialFrontendHelper
             if ($display_as_table) {
                 $html .= '<table class="material-meta-table">';
                 if ($table_title != "")
-                    $html .= '<caption><h3>' . $table_title . '</h3></caption>';
+                    $html .= '<caption><h4>' . $table_title . '</h4></caption>';
 
                 $table_data_bracket_open = '<td>';
                 $table_data_bracket_close = '</td>';
@@ -50,7 +50,12 @@ class MaterialFrontendHelper
                         if (!empty($co_author)) {
                             $html .= ', ' . $co_author;
                         }
-                        $html .= ' (' . get_the_date() . ')';
+                        $term = wp_get_post_terms(get_the_ID(),'bundesland' );
+                        if (!empty($term))
+                        {
+                            $termLink = '<a href="'.$this->frontend_uri.'?_'.'bundesland='.$term[0]->slug.'">'.$term[0]->name.'</a>';
+                            $html .= ' (' .$termLink. ')';
+                        }
                         $html .= $table_data_bracket_close;
                         $html .= $tr_div_bracket_close;
                         continue;
@@ -177,7 +182,7 @@ class MaterialFrontendHelper
             echo "Du bist für diese  Fortbildung angemeldet";
         }else{
 
-            echo   '<a class="button" href="'. home_url() . '/anmeldeformular/?fobi=' . $fobi .'">Einschreiben</a>';
+            echo   '<a class="button" href="'. home_url() . '/anmeldeformular/?fobi=' . $fobi .'">Zur Fortbildung anmelden</a>';
         }
 
     }

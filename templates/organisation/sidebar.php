@@ -1,4 +1,5 @@
 <?php
+// Contacts of the Organisation
 $contacts = get_field('contacts', get_the_ID());
 if (!empty($contacts)) {
     ?>
@@ -13,7 +14,9 @@ if (!empty($contacts)) {
                 <a href="<?php echo get_author_posts_url($userId) ?>">
                     <div class="single-contactperson-spacer">
                         <?php echo get_avatar($userId) ?>
-                        <?php echo $userName . ' (' . $contact['contact_section'] . ')' ?>
+                        <span>
+                            <?php echo $userName . ' (' . $contact['contact_section'] . ')' ?>
+                        </span>
                     </div>
                 </a>
             </div>
@@ -23,26 +26,7 @@ if (!empty($contacts)) {
     </div>
     <?php
 }
-$url_organisation = get_field('url_organisation', get_the_ID());
-$url_fortbildungen = get_field('url_fortbildungen', get_the_ID());
-if (!empty($url_oranisation) || !empty($url_fortbildungen)) {
-    ?>
-    <div class="organisation-referral-links reli-sidebar-section">
-        <?php if (!empty($url_organisation)) { ?>
-            <a class="button" href="<?php echo $url_organisation ?>" target="_blank"
-               rel="noopener noreferrer">Link zur Organisation</a>
-            <?php
-        }
-        if (!empty($url_fortbildungen)) {
-            ?>
-            <a class="button" href="<?php echo $url_fortbildungen ?>" target="_blank"
-               rel="noopener noreferrer">Fortbildungsangebote</a>
-            <?php
-        }
-        ?>
-    </div>
-    <?php
-}
+// Fortbildungen of the  Organisation
 $fortbildungen = get_field('fortbildungen', get_the_ID());
 if (sizeof($fortbildungen) > 0) {
     ?>
@@ -91,6 +75,28 @@ if (sizeof($fortbildungen) > 0) {
                     ?>
                 </div>
             </details>
+            <?php
+        }
+        ?>
+    </div>
+    <?php
+}
+
+//Organisation Credentials
+$url_organisation = get_field('url_organisation', get_the_ID());
+$url_fortbildungen = get_field('url_fortbildungen', get_the_ID());
+if (!empty($url_oranisation) || !empty($url_fortbildungen)) {
+    ?>
+    <div class="organisation-referral-links reli-sidebar-section">
+        <?php if (!empty($url_organisation)) { ?>
+            <a class="button" href="<?php echo $url_organisation ?>" target="_blank"
+               rel="noopener noreferrer">Link zur Organisation</a>
+            <?php
+        }
+        if (!empty($url_fortbildungen)) {
+            ?>
+            <a class="button" href="<?php echo $url_fortbildungen ?>" target="_blank"
+               rel="noopener noreferrer">Fortbildungsangebote</a>
             <?php
         }
         ?>

@@ -14,7 +14,7 @@
 .fortbildung-contactperson .single-contactperson,
 .organisation-contactperson .single-contactperson{
     width: fit-content;
-    background-color: #fff;
+    background-color: var(--reli-accent-background);
     border-radius: 15px;
 }
 
@@ -22,13 +22,21 @@
 .fortbildung-contactperson .single-contactperson .single-contactperson-spacer,
 .organisation-contactperson .single-contactperson .single-contactperson-spacer
 {
-    padding: 5px;
+    padding: 5px 15px;
+    display: flex;
 }
 
 .fortbildung-organisation .single-organisation:hover ,
 .fortbildung-contactperson .single-contactperson:hover,
 .organisation-contactperson .single-contactperson:hover{
-    background-color: #e0e0e0;
+    background-color: var(--reli-accent-background-hover);
+}
+
+.fortbildung-organisation .single-organisation .single-organisation-spacer span,
+.fortbildung-contactperson .single-contactperson .single-contactperson-spacer span,
+.organisation-contactperson .single-contactperson .single-contactperson-spacer span
+{
+    margin: auto;
 }
 
 .fortbildung-organisation img,
@@ -63,6 +71,15 @@
     background-color: var(--reli-background-color);
     margin: calc(var(--boxed-content-spacing)*-1) calc(var(--boxed-content-spacing)*-1) 0;
     padding: var(--boxed-content-spacing) var(--boxed-content-spacing) 0;
+}
+.reli-top-section.materialien{
+    border-bottom: 2px solid var(--reli-accent-color);
+}
+.reli-top-section.fortbildung{
+    border-bottom: 2px solid #70D6FF;
+}
+.reli-top-section.organisation{
+    border-bottom: 2px solid #E6AF2E;
 }
 
 .reli-header {
@@ -129,10 +146,10 @@
 }
 
 .reli-sidebar-fortbildungen summary{
-    background-color: #fff;
+    background-color: var(--reli-accent-background);
     border-radius: 5px;
 }
 .reli-sidebar-fortbildungen summary:hover{
-    background-color: #e0e0e0;
+    background-color: var(--reli-accent-background-hover);
     cursor: pointer;
 }

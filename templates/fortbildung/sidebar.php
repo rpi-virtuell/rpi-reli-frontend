@@ -9,8 +9,8 @@ if (!empty($termine)) {
             ?>
             <div class="single-termin">
                 <div class="termin-date-box">
-                    <div class="termin-day"><?php echo date('d',strtotime($termin['termin_datumzeit'])) ?></div>
-                    <div class="termin-month"><?php echo date('M Y',strtotime($termin['termin_datumzeit'])) ?></div>
+                    <div class="termin-day"><?php echo date('d', strtotime($termin['termin_datumzeit'])) ?></div>
+                    <div class="termin-month"><?php echo date('M Y', strtotime($termin['termin_datumzeit'])) ?></div>
                 </div>
                 <div class="termin-daytime">
                     <?php
@@ -42,8 +42,12 @@ if (!empty($organisationIds)) {
                     <div class="single-organisation-spacer">
                         <?php
                         echo get_the_post_thumbnail($organisationId);
+                        ?>
+                        <span>
+                        <?php
                         echo get_the_title($organisationId)
                         ?>
+                        </span>
                     </div>
                 </a>
             </div>
@@ -68,8 +72,12 @@ if (!empty($contactPersons)) {
                     <div class="single-contactperson-spacer">
                         <?php
                         echo get_avatar($contactPerson['name']);
+                        ?>
+                        <span>
+                        <?php
                         echo get_the_author_meta('display_name', $contactPerson['name']);
                         ?>
+                        </span>
                     </div>
                 </a>
             </div>
@@ -82,6 +90,6 @@ if (!empty($contactPersons)) {
 ?>
 <div class="reli-sidebar-section">
     <div class="fortbildung-joinlink">
-        <?php  MaterialFrontendHelper::fortbildung_enroll_button(get_the_ID()); ?>
+        <?php MaterialFrontendHelper::fortbildung_enroll_button(get_the_ID()); ?>
     </div>
 </div>

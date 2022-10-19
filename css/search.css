@@ -2,6 +2,9 @@
     --reli-accent-color: var(--linkInitialColor);
     --reli-accent-color-hover: var(--linkHoverColor);
 
+    --reli-accent-background : #fff;
+    --reli-accent-background-hover : #e0e0e0;
+
     --reli-background-color : #DCE2F0;
 }
 
@@ -164,11 +167,21 @@
     margin: 25px;
 }
 
-.entry-card {
+.material-grid .entry-card {
     box-shadow: 2px 1px 7px rgba(0, 0, 0, 0.2) !important;
     background: #fff;
     display: flex;
-    padding: 30px !important;
+    padding: unset !important;
+}
+.material-title
+{
+    padding: 30px;
+    background-color: var(--reli-background-color);
+    border-bottom: 2px solid;
+    border-color: var(--reli-accent-color);
+}
+.material-card-content{
+    padding: 30px;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -245,8 +258,7 @@
     font-weight: 600;
     line-height: 1.2em;
     display: table;
-    min-height: 110px;
-    margin-top: -24px !important;
+    min-height: 85px;
 }
 
 .material-title h2 a {
@@ -257,7 +269,6 @@
 .material-picture {
     position: relative;
     display: flex;
-    border-top: 2px solid;
     border-bottom: 2px solid;
     border-color: var(--reli-accent-color);
 }
