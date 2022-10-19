@@ -1,3 +1,3 @@
 jQuery(document).ready($=>{
-    $('article.fortbildung').height($('.reli-sidebar').height());
+    $('article.fortbildung').css({'min-height':$('.reli-sidebar').height()+'px'});
 });
