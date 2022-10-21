@@ -390,3 +390,61 @@ position: relative;
 .card-tag svg{
     margin: auto;
 }
+
+.termin-list-card{
+    margin: 25px 0;
+    box-shadow: 2px 1px 7px rgba(0, 0, 0, 0.2)
+}
+.termin-list-card .termin-list-card-header:hover h4
+{
+  color: var(--reli-accent-color-hover);
+}
+
+.termin-list-card .termin-list-card-header{
+    padding: 15px;
+    background-color: var(--reli-background-color);
+    border-bottom: 2px solid var(--reli-accent-color) ;
+}
+.termin-list-card .termin-list-card-header .termin-daytime{
+    color: black;
+    font-weight: bold;
+}
+.termin-list-card .termin-list-card-content{
+    padding: 15px;
+}
+.termin-list-card .termin-list-card-content .termin-subtitle{
+    color: #999;
+    font-weight: bold;
+}
+
+.termin-list-card .termin-date-box{
+    height: 100%;
+    padding-left: 15px;
+    padding-top: 10px;
+
+}
+.termin-list-card h4 {
+    margin-top: unset !important;
+}
+.reli-termine-list-filter{
+
+    background-color: seashell;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.termin-term-filter-details{
+
+    width: fit-content;
+}
+.termin-term-filter-details div{
+    padding: 5px;
+}
+.termin-term-filter-details .termine-term-filter{
+    padding: 5px;
+}
+.termin-term-filter-details .termine-term-filter:hover{
+    background-color: #ccc4be;
+    width:  100%;
+
+}

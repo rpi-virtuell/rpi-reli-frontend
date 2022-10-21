@@ -187,6 +187,118 @@ class RpiReliFrontendSearch
 
 }
 
+add_shortcode('terminsuche', function () {
+    ob_start();
+
+     if (isset($_GET['startdate'])) {
+            $startDate = $_GET['startdate'];
+        } elseif (isset($atts['startdate'])) {
+            $startDate = $atts['startdate'];
+        } else {
+            $startDate = date('Y-m-d');
+        }
+
+    ?>
+    <div class="reli-termine-list">
+        <div class="reli-termine-list-filter">
+        <h4>Suche</h4>
+        <form id="termineSearchForm" name="Termin Suche" method="get">
+        <div class="reli-termine-filter-input">
+        <div class="categorySelection">
+        <?php
+        $terms = get_terms(array('taxonomy' => 'bundesland'));
+        ?>
+        <details class="termin-term-filter-details">
+        <summary class="termine-term-filter"><label>Bundesländer</label></summary>
+        <?php
+        foreach ($terms as $term)
+            {
+                if (isset($_GET[$term->slug]))
+                $activeTerms[] = $term->slug;
+                ?>
+                <input type="checkbox" id="<?php echo $term->slug; ?>" name="<?php echo $term->slug; ?>" value="1" <?php  echo isset($_GET[$term->slug]) ?  'checked' : '' ;?>>
+<label for="<?php echo $term->slug; ?>"><?php echo $term->name; ?></label><br>
+                <?php
+            }
+        ?>
+        </details>
+</div>
+<label for="dateSelector">
+                            Startdatum
+                        </label>
+                        <input type="date" name="startdate" id="dateSelector" value="<?php echo $startDate ?>">
+                        </div>
+                         <br>
+                <input class="relilab-submit-button" type="submit" value="Filter anwenden">
+                <br>
+</form>
+        </div>
+        <?php
+
+     $termIds = [];
+        if (isset($activeTerms))
+            {
+	 $termPosts = get_posts( [
+             'post_type' => 'fortbildung',
+             'numberposts' => -1,
+             'tax_query' => [
+                     'taxonomy' => 'bundesland',
+                     'field' => 'slug',
+                     'terms' => $activeTerms]
+             ]);
+     foreach ($termPosts as $post){
+         $termIds[] = $post->ID;
+     }
+            }
+$termine = RpiReliFrontendFormsHandler::get_termine('ASC',strtotime($startDate),false,$termIds);
+foreach ($termine as $termin)
+{
+    ?>
+    <div class="termin-list-card">
+    <div class="single-termin">
+    <div class="termin-spacer">
+        <div class="termin-date-box">
+            <div class="termin-day"><?php echo date('d', $termin->timestamp) ?></div>
+            <div class="termin-month"><?php echo date('M Y', $termin->timestamp) ?></div>
+        </div>
+        </div>
+
+
+        <div class="fortbildung-name">
+        <a href="<?php echo get_post_permalink($termin->post_id); ?>" >
+        <div class="termin-list-card-header">
+<div class="termin-daytime"><?php
+                $startTime = date('H:i', $termin->timestamp);
+                $endTime = date('H:i', $termin->timestamp + 3600 * $termin->dauer);
+                echo $startTime . ' - ' . $endTime . ' Uhr';
+                ?></div>
+                    <h4>
+                    <?php echo $termin->title; ?>
+                    </h4>
+                    </div>
+
+        </a>
+                   <div class="termin-list-card-content">
+                    <?php if (!empty($termin->subtitle)) { ?>
+                    <span class="termin-subtitle">
+                    <?php echo $termin->subtitle; ?>
+                    </span>
+                <?php } ?>
+                    <?php if (!empty($termin->hinweis)) { ?>
+                    <br>
+                    <span>
+                    <?php echo $termin->hinweis ?>
+                    </span>
+                <?php } ?>
+                </div>
+                </div>
+    </div>
+    </div>
+    <?php
+}
+
+    return ob_get_clean();
+});
 new RpiReliFrontendSearch();
 
 

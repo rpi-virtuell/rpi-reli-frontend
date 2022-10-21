@@ -8,19 +8,21 @@ if (!empty($contacts)) {
         <?php
         foreach ($contacts as $key => $contact) {
             $userId = $contact['contact_person'];
-            $userName = get_the_author_meta('display_name', $userId);
-            ?>
-            <div class="single-contactperson">
-                <a href="<?php echo get_author_posts_url($userId) ?>">
-                    <div class="single-contactperson-spacer">
-                        <?php echo get_avatar($userId) ?>
-                        <span>
+            if (!empty($userId)) {
+                $userName = get_the_author_meta('display_name', $userId);
+                ?>
+                <div class="single-contactperson">
+                    <a href="<?php echo get_author_posts_url($userId) ?>">
+                        <div class="single-contactperson-spacer">
+                            <?php echo get_avatar($userId) ?>
+                            <span>
                             <?php echo $userName . ' (' . $contact['contact_section'] . ')' ?>
                         </span>
-                    </div>
-                </a>
-            </div>
-            <?php
+                        </div>
+                    </a>
+                </div>
+                <?php
+            }
         }
         ?>
     </div>
@@ -28,7 +30,7 @@ if (!empty($contacts)) {
 }
 // Fortbildungen of the  Organisation
 $fortbildungen = get_field('fortbildungen', get_the_ID());
-if (sizeof($fortbildungen) > 0) {
+if ( !empty($fortbildungen && sizeof($fortbildungen) > 0)) {
     ?>
     <div class="reli-sidebar-fortbildungen reli-sidebar-section">
         <h4>Online-Fortbildungen</h4>

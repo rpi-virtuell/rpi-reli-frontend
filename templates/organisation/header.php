@@ -3,16 +3,18 @@
 <span><?php the_excerpt() ?></span>
 
 
-<?php $tags = get_tags(array('taxonomy' => 'bundesland'));
+<?php $tags = get_the_terms(get_the_ID(), 'bundesland');
 if (!empty($tags)) {
     ?>
     <div class="organisation-tags">
         <?php foreach ($tags as $tag) {
-            ?>
-            <a class="button" href="<?php echo get_tag_link($tag) ?>">
-                <?php echo $tag->name ?>
-            </a>
-            <?php
+            if (!empty($tag->name)){
+                ?>
+                <a class="button" href="<?php echo get_term_link($tag) ?>">
+                    <?php echo $tag->name ?>
+                </a>
+                <?php
+            }
         } ?>
     </div>
     <?php

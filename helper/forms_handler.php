@@ -78,7 +78,7 @@ class RpiReliFrontendFormsHandler{
 
 		$sub_query = '';
 		if(is_array($post__in) && count($post__in) > 0){
-			$sub_query =  'AND post_id in ('. $post__in .')';
+			$sub_query =  'AND post_id in ('. implode(',',$post__in) .')';
 		}
 
 		$querystr = "
