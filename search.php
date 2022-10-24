@@ -77,7 +77,8 @@ class RpiReliFrontendSearch
 
         add_action('blocksy:content:top', function () {
 
-            if (in_array(get_post_type(), ["organisation", "fortbildung"]) && is_single() && current_user_can('edit_post', get_the_ID())) {
+
+            if (!is_author() && in_array(get_post_type(), ["organisation", "fortbildung"]) && is_single() && current_user_can('edit_post', get_the_ID())) {
                 ?>
                 <div class="ct-container">
                     <details class="edit-section">
@@ -96,7 +97,7 @@ class RpiReliFrontendSearch
                 </div>
                 <?php
             }
-            if (get_post_type() === 'materialien') {
+            if (!is_author() && get_post_type() === 'materialien') {
                 if (is_user_logged_in() && (get_the_author() === get_current_user() || current_user_can('edit_others_materials'))) {
                     ?>
                     <div class="ct-container edit-section">
@@ -109,6 +110,26 @@ class RpiReliFrontendSearch
                     <?php
                 }
             }
+            if (is_author())
+                {
+                    if (is_user_logged_in() && get_the_author() === get_user_meta(get_current_user_id(),'nickname',true))
+                        {
+                            ?>
+                            <div class="ct-container">
+                                <details class="edit-section">
+                                    <summary class="button">Bearbeiten
+                                        <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>"></summary>
+                                    <div class="organisation-edit-form">
+                                        <?php
+                                        echo do_shortcode('[basic-user-avatars]');
+                                        acfe_form('user_profile_settings');
+                                        ?>
+                                    </div>
+                                </details>
+                            </div>
+                            <?php
+                        }
+                }
         });
 
         add_action('blocksy:loop:card:start', function (){
