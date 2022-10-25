@@ -1,7 +1,9 @@
 /**
  * Bearbeiten Formular ein uns ausblenden
  */
+
 jQuery(document).ready($=>{
+
     $('details summary').each(function(){
         $(this).nextAll().wrapAll('<div id="wrap"></div>');
     });
@@ -30,4 +32,11 @@ jQuery(document).ready($=>{
     $('.acf-field[data-name="teilnahme_datum"] select').on('change',e=>{
         location.href = '?termin='+ e.target.value;
     })
+    $('.acf-field[data-name="teilnehmende"] input[type="checkbox"]').on('change',e=>{
+
+        setTimeout(e=>{$('.acf-field[data-name="teilnehmende"]').closest('form').submit();},5000);
+
+    })
+
 });
+

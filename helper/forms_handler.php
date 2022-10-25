@@ -8,6 +8,7 @@ class RpiReliFrontendFormsHandler{
 		add_filter('acf/load_field/name=teilnehmende', [$this,'load_teilnehmende']);
 		add_filter('acf/load_field/name=teilnahme_datum', [$this,'load_teilnahme_datum']);
 		add_action('acfe/form/submit/form=anmeldungen', [$this, 'on_teilnehmer_liste_submit'], 10, 2);
+
 	}
 
 	public function load_teilnehmende ($field) {
@@ -119,6 +120,9 @@ class RpiReliFrontendFormsHandler{
 
 		update_post_meta($post_ID,'teilnehmende_'.$current_date,get_post_meta($post_ID,'teilnehmende',true));
 
+        header('location: ' .  get_permalink($post_ID));
+
+
 	}
 
 	public function update_termine ($form, $post_id) {
@@ -133,6 +137,8 @@ class RpiReliFrontendFormsHandler{
 				add_post_meta($post_id,'fortbildung_termin',$termin_string);
 			}
 		}
+
+
 	}
 
 
