@@ -25,6 +25,13 @@ class RpiReliFrontendSearch
 
         include_once plugin_dir_path(__FILE__) . '/helper/material_frontend_helper.php';
 
+        add_action('wp' ,function(){
+            if ($_SERVER['REQUEST_URI'] === '/meinprofil' && is_user_logged_in()){
+                var_dump(home_url('author/'. get_current_user()));
+                wp_redirect(home_url('author/'.get_user_meta(get_current_user_id(),'nickname',true)));
+            }
+    });
+
         add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style('rpi_reli_frontend_search_style', plugin_dir_url(__FILE__) . 'css/search.css');
             wp_enqueue_style('rpi_reli_frontend_forms_style', plugin_dir_url(__FILE__) . 'css/forms.css');
