@@ -12,7 +12,6 @@ jQuery(document).ready($=>{
     $('details.open div#wrap').css('display','block');
     $('details summary').click(function(e) {
 
-
         e.preventDefault();
         $(this).siblings('div#wrap').slideToggle(function(){
             console.log('toggle');
@@ -28,4 +27,7 @@ jQuery(document).ready($=>{
         });
     });
 
+    $('.acf-field[data-name="teilnahme_datum"] select').on('change',e=>{
+        location.href = '?termin='+ e.target.value;
+    })
 });

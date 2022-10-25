@@ -7,6 +7,7 @@ class RpiReliFrontendFormsHandler{
 		add_action('acfe/form/submit/form=fortbildung-edit', [$this,'update_termine'], 10, 2);
 		add_filter('acf/load_field/name=teilnehmende', [$this,'load_teilnehmende']);
 		add_filter('acf/load_field/name=teilnahme_datum', [$this,'load_teilnahme_datum']);
+		add_action('acfe/form/submit/form=anmeldungen', [$this, 'on_teilnehmer_liste_submit'], 10, 2);
 	}
 
 	public function load_teilnehmende ($field) {
@@ -42,37 +43,83 @@ class RpiReliFrontendFormsHandler{
 				$field['choices'][ $user_id ] = '<strong>'. $user->display_name .'</strong> ('.$user_organisation.')' ;
 
 			}
+			$meta_post_fix = '_'.$this->_get_key();
+			if(isset($_GET['termin'])){
+				$meta_post_fix = '_'. trim($_GET['termin']);
+			}
 
-			$checked =  get_post_meta(intval($fobi), 'teilnehmende', true);
+
+			$checked =  get_post_meta(intval($fobi), 'teilnehmende'.$meta_post_fix, true);
 			//var_dump($checked);
 			$field['default_value']=$checked;
 		}
 
 		return $field;
 	}
-	public function load_teilnahme_datum ($field) {
-		$fobi = get_the_ID();
-		$termine = get_field('termine', get_the_ID());
+	private function _get_key($termin_datumzeit = null){
 
-		$now = date('ymd',time());
+		if($termin_datumzeit!==null){
 
-		$current_termin  = null;
+			$ts = strtotime($termin_datumzeit) ;
+			return  date('ymd',$ts);
 
-		foreach ($termine as $termin){
-			$ts = strtotime($termin['termin_datumzeit']);
-			$field['choices'][ $ts ] = $termin['termin_datumzeit']  ;
+		}else{
 
-			if($now >= date('ymd',$ts)){
+			$now = date('ymd',time());
 
-				$field['default_value']= $ts;
+			$termine = get_field('termine', get_the_ID());
+
+			foreach ($termine as $termin){
+				$key = date('ymd',strtotime($termin['termin_datumzeit']));
+
+				if($now >= $key){
+
+					$return = $key;
+
+				}
 
 			}
+			return $return;
+
 		}
+
+
+
+
+
+	}
+
+	public function load_teilnahme_datum ($field) {
+
+		$termine = get_field('termine', get_the_ID());
+
+		foreach ($termine as $termin){
+			$key = $this->_get_key($termin['termin_datumzeit']);
+			$field['choices'][ $key ] = $termin['termin_datumzeit']  ;
+
+		}
+
+		if(isset($_GET['termin'])){
+
+			$field['default_value']= $_GET['termin'];
+
+		}else{
+
+			$field['default_value']= $this->_get_key();
+
+		}
+
 		return $field;
 
 	}
 
+	public function on_teilnehmer_liste_submit($form, $post_ID){
 
+		$current_date = get_post_meta($post_ID,'teilnahme_datum', true);
+
+		update_post_meta($post_ID,'teilnehmende_'.$current_date,get_post_meta($post_ID,'teilnehmende',true));
+
+	}
 
 	public function update_termine ($form, $post_id) {
 
