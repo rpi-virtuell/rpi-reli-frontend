@@ -5,7 +5,74 @@ class RpiReliFrontendFormsHandler{
 	public function __construct() {
 		add_action('acfe/form/submit/form=fortbildung-create', [$this,'update_termine'], 10, 2);
 		add_action('acfe/form/submit/form=fortbildung-edit', [$this,'update_termine'], 10, 2);
+		add_filter('acf/load_field/name=teilnehmende', [$this,'load_teilnehmende']);
+		add_filter('acf/load_field/name=teilnahme_datum', [$this,'load_teilnahme_datum']);
 	}
+
+	public function load_teilnehmende ($field) {
+
+		$fobi = get_the_ID();
+
+		if('fortbildung'!=get_post_type($fobi))
+			return $field;
+
+		$args = [
+			'post_type' => 'anmeldung',
+			'post_status'=> 'any',
+			'meta_query'=>[
+				[
+					'key'=>'fobi',
+					'value'=> intval($fobi),
+					'compare'=>'=',
+					'type' => 'NUMERIC'
+				]
+			]
+		];
+		$anmeldungen = get_posts($args);
+
+
+		if ($anmeldungen !== false) {
+			foreach ($anmeldungen as $anm){
+
+				$user_id = get_post_meta($anm->ID, 'user', true);
+				$user_organisation = (string) get_post_meta($anm->ID, 'anmeldung_organisation', true);
+
+				// $user = WP_USER
+				$user= get_userdata($user_id);
+				$field['choices'][ $user_id ] = '<strong>'. $user->display_name .'</strong> ('.$user_organisation.')' ;
+
+			}
+
+			$checked =  get_post_meta(intval($fobi), 'teilnehmende', true);
+			//var_dump($checked);
+			$field['default_value']=$checked;
+		}
+
+		return $field;
+	}
+	public function load_teilnahme_datum ($field) {
+		$fobi = get_the_ID();
+		$termine = get_field('termine', get_the_ID());
+
+		$now = date('ymd',time());
+
+		$current_termin  = null;
+
+		foreach ($termine as $termin){
+			$ts = strtotime($termin['termin_datumzeit']);
+			$field['choices'][ $ts ] = $termin['termin_datumzeit']  ;
+
+			if($now >= date('ymd',$ts)){
+
+				$field['default_value']= $ts;
+
+			}
+		}
+		return $field;
+
+	}
+
+
 
 	public function update_termine ($form, $post_id) {
 
@@ -14,13 +81,11 @@ class RpiReliFrontendFormsHandler{
 		$termine = get_field('termine',$post_id);
 		if(is_array($termine)){
 			foreach ($termine as $termin){
-
 				$termin_string = strtotime($termin["termin_datumzeit"]);
 				$termin_string .= '|'.$termin["termin_datumzeit"].'|'.$termin["termin_dauer"].'|'.$termin["termin_hinweis"];
 				add_post_meta($post_id,'fortbildung_termin',$termin_string);
 			}
 		}
-
 	}
 
 
