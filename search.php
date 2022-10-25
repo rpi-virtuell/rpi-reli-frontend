@@ -106,7 +106,10 @@ class RpiReliFrontendSearch
                         </div>
                     </details>
                     <details class="teilnehmer-liste">
-                        <summary class="button">Anmeldungen und Teilnahme</summary>
+                        <summary class="button">
+	                        <?php include_once 'assets/anlass.svg'?>
+                            Teilnahme Check
+	                    </summary>
 		                <?php acfe_form('anmeldungen');?>
                     </details>
                 </div>

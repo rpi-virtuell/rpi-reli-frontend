@@ -22,6 +22,7 @@ jQuery(document).ready($=>{
             if($(e.target).closest('.edit-section').length>0){
                 $('article.fortbildung').toggle();
                 $('article.organisation').toggle();
+                $('details.teilnehmer-liste').toggle();
             }
 
 

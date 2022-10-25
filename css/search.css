@@ -376,6 +376,10 @@ details.material-report summary span {
     margin-top: 40px;
     padding: 30px;
 }
+.teilnehmer-liste svg{
+    margin-right: 5px;
+    fill: #ffffff;
+}
 .card-tag-bar{
 position: relative;
 }
