@@ -87,8 +87,9 @@ class RpiReliFrontendSearch
 
             if (!is_author() && in_array(get_post_type(), ["organisation", "fortbildung"]) && is_single() && current_user_can('edit_post', get_the_ID())) {
 	            ?>
-                <div class="ct-container">
-                    <?php acfe_form('anmeldungen');?>
+                <div class="ct-container top-buttons">
+
+
                     <details class="edit-section">
                         <summary class="button">Bearbeiten
                             <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>"></summary>
@@ -103,6 +104,10 @@ class RpiReliFrontendSearch
                             }
                             ?>
                         </div>
+                    </details>
+                    <details class="teilnehmer-liste">
+                        <summary class="button">Anmeldungen und Teilnahme</summary>
+		                <?php acfe_form('anmeldungen');?>
                     </details>
                 </div>
                 <?php

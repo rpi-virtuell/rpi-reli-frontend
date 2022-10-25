@@ -367,6 +367,15 @@ details.material-report summary span {
     background-color: white;
 }
 
+.teilnehmer-liste{
+    margin-top: -40px;
+}
+.teilnehmer-liste form{
+    background-color: white;
+    box-shadow: 2px 2px 3px #aaa;
+    margin-top: 40px;
+    padding: 30px;
+}
 .card-tag-bar{
 position: relative;
 }
