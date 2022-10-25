@@ -183,7 +183,7 @@ class RpiReliFrontendSearch
         <div class="search-page-grid">
             <div class="search-bar">
                 <?php echo facetwp_display('facet', 'search'); ?>
-                <button class="wp-block-search__button" id="search-filter-button" name="filter-button" type="button">
+                <button class="wp-block-search__button button" id="search-filter-button" name="filter-button" type="button">
                     Erweiterte Suche
                 </button>
             </div>
