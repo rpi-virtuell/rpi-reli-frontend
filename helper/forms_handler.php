@@ -39,9 +39,10 @@ class RpiReliFrontendFormsHandler{
 				$user_id = get_post_meta($anm->ID, 'user', true);
 				$user_organisation = (string) get_post_meta($anm->ID, 'anmeldung_organisation', true);
 
+				$organisation =($user_organisation)? ' ('.$user_organisation.')':'';
 				// $user = WP_USER
 				$user= get_userdata($user_id);
-				$field['choices'][ $user_id ] = '<strong>'. $user->display_name .'</strong> ('.$user_organisation.')' ;
+				$field['choices'][ $user_id ] = '<strong>'. $user->display_name .'</strong>'.$organisation ;
 
 			}
 			$meta_post_fix = '_'.$this->_get_key();
