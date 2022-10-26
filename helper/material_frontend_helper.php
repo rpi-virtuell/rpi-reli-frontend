@@ -178,8 +178,9 @@ class MaterialFrontendHelper
 	    ];
 	    $posts = get_posts($args);
 
-        if(count($posts)>1){
-            echo "Du bist für diese  Fortbildung angemeldet";
+        if(count($posts)>0){
+            echo "Du bist für diese  Fortbildung angemeldet. Hier geht es zum ";
+	        echo   '<strong><a href="'. get_field('join_url',get_the_ID()) .'">Konferenzraum</a></strong>.';
         }else{
 
             echo   '<a class="button" href="'. home_url() . '/anmeldeformular/?fobi=' . $fobi .'">Zur Fortbildung anmelden</a>';
