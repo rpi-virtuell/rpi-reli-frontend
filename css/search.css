@@ -182,6 +182,9 @@
 }
 .material-card-content{
     padding: 30px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -271,6 +274,10 @@
     display: flex;
     border-bottom: 2px solid;
     border-color: var(--reli-accent-color);
+}
+
+ .material-title + .material-card-content .material-picture:hover {
+    border-color: var(--reli-accent-color-hover);
 }
 
 .material-picture:hover {

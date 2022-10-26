@@ -27,8 +27,9 @@ class RpiReliFrontendSearch
 
         add_action('wp' ,function(){
             if ($_SERVER['REQUEST_URI'] === '/meinprofil' && is_user_logged_in()){
-                var_dump(home_url('author/'. get_current_user()));
-                wp_redirect(home_url('author/'.get_user_meta(get_current_user_id(),'nickname',true)));
+                $user = get_userdata(get_current_user_id());
+                wp_redirect(home_url('author/'.$user->user_login));
+
             }
     });
 

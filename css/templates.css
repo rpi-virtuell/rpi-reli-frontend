@@ -153,3 +153,30 @@
     background-color: var(--reli-accent-background-hover);
     cursor: pointer;
 }
+
+@media only screen and (max-width: 1024px) {
+
+    .reli-post-grid {
+        display: unset;
+    }
+
+    .reli-top-section {
+        display: grid;
+    }
+
+    .reli-header {
+        width: unset;
+        padding: unset;
+    }
+
+    .reli-sidebar {
+        position: unset;
+        width: unset;
+    }
+
+    .reli-content {
+        width: unset;
+        padding: unset;
+    }
+
+}

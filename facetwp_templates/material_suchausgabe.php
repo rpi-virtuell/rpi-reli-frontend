@@ -5,7 +5,7 @@
             the_post();
 
             include_once __RPI_RELI_FRONTEND_DIR__ . '/helper/material_frontend_helper.php';
-            $frontendHelper = new MaterialFrontendHelper(get_the_ID(), RpiReliFrontendSearch::getSearchPage());
+            $frontendHelper = new MaterialFrontendHelper(RpiReliFrontendSearch::getSearchPage());
             ob_start();
             ?>
             <article class="entry-card">
@@ -25,7 +25,7 @@
                         <div class="excerpt">
                             <?php the_excerpt() ?>
                         </div>
-                        <div class="ct-ghost"></div>
+                        <div class="ct-ghost"> </div>
                         <div style="clear: both"></div>
                         <div class="taxonomien">
 

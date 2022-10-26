@@ -73,13 +73,13 @@ class MaterialFrontendHelper
                         $lastkey = array_key_last($formal_tag);
                         foreach ($formal_tag as $tag_key => $tag_id) {
                             $tag = get_term($tag_id);
-                            $html .= '<a href="' . $this->frontend_uri . '?_' . $formal_key . '=' . $tag->name . '">' . $tag->name . '</a>';
+                            $html .= '<a href="' . $this->frontend_uri . '?_' . $formal_key . '=' . $tag->slug . '">' . $tag->name . '</a>';
                             if (count($formal_tag) > 1 && $tag_key != $lastkey)
                                 $html .= ', ';
                         }
                     } else {
                         $term = get_term($formal_tag);
-                        $html .= '<a href="' . $this->frontend_uri . '?_' . $formal_key . '=' . $term->name . '">' . $term->name . '</a>';
+                        $html .= '<a href="' . $this->frontend_uri . '?_' . $formal_key . '=' . $term->slug . '">' . $term->name . '</a>';
                     }
                     $html .= $table_data_bracket_close;
                     $html .= $tr_div_bracket_close;

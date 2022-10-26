@@ -1,7 +1,9 @@
-<ul class="my-material results">
-    <?php if (is_user_logged_in()) { ?>
-        <?php
-        if (have_posts()) {
+<?php if (is_user_logged_in()) { ?>
+    <?php
+    if (have_posts()) {
+        ?>
+        <ul class="my-material results">
+            <?php
             while (have_posts()): the_post(); ?>
                 <li>
                     <h3 class="entry-title my-material" style="font-size:20px; border-bottom: 1px solid #ddd;">
@@ -14,17 +16,15 @@
                     <?php the_excerpt(); ?>
                 </li>
             <?php endwhile;
-        } else {
             ?>
-            <li>
-                <span>Momentan hast du keine Materialien.</span>
-            </li>
-            <?php
-        }
-    } else { ?>
-        <li>
-            <span>Zum Anzeigen deiner Materialien musst du dich anmelden!</span>
-        </li>
+        </ul>
         <?php
-    } ?>
-</ul>
+    } else {
+        ?>
+        <span>Du hast noch keine Materialien erstellt? Das solltest du schleunigst ändern. Über diesen <a href="<?php echo home_url('neues-material-eingeben/') ?>">Link</a> kannst du neues Material erstellen.</span>
+        <?php
+    }
+} else { ?>
+        <span>Zum Anzeigen deiner Materialien musst du dich anmelden!</span>
+    <?php
+} ?>
