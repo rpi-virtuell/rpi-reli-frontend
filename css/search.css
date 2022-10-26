@@ -473,3 +473,32 @@ position: relative;
 .fortbildung-name{
     width: 100%;
 }
+
+
+
+.author-single-fortbildung{
+    display: grid;
+    grid-template-areas: 'title title''thumbnail termin';
+    background-color: white;
+    border-radius: 5px;
+    margin: 10px 0;
+    grid-template-columns: 30% 70%;
+}
+.author-single-fortbildung-title{
+    grid-area: title;
+    padding: 20px;
+    background-color: var(--reli-background-color);
+    margin: calc(var(--boxed-content-spacing)*-1) calc(var(--boxed-content-spacing)*-1) 0;
+    border-bottom: 2px solid #70D6FF;
+}
+.author-single-fortbildung-thumbnail{
+    grid-area: thumbnail;
+    width:  150px;
+   margin: 20px;
+
+
+}
+.author-single-fortbildung-termine{
+    grid-area: termin;
+    padding: 20px;
+}
