@@ -3,8 +3,8 @@
 class RpiReliFrontendFormsHandler{
 
 	public function __construct() {
-		add_action('acfe/form/submit/form=fortbildung-create', [$this,'update_termine'], 10, 2);
-		add_action('acfe/form/submit/form=fortbildung-edit', [$this,'update_termine'], 10, 2);
+		add_action('acfe/form/submit/form=fortbildung-create', [$this,'update_fortbildungs_meta'], 10, 2);
+		add_action('acfe/form/submit/form=fortbildung-edit', [$this,'update_fortbildungs_meta'], 10, 2);
 		add_filter('acf/load_field/name=teilnehmende', [$this,'load_teilnehmende']);
 		add_filter('acf/load_field/name=teilnahme_datum', [$this,'load_teilnahme_datum']);
 		add_action('acfe/form/submit/form=anmeldungen', [$this, 'on_teilnehmer_liste_submit'], 10, 2);
@@ -126,7 +126,7 @@ class RpiReliFrontendFormsHandler{
 
 	}
 
-	public function update_termine ($form, $post_id) {
+	public function update_fortbildungs_meta ($form, $post_id) {
 
 		delete_post_meta($post_id,'fortbildung_termin');
 
@@ -137,10 +137,19 @@ class RpiReliFrontendFormsHandler{
 				$termin_string .= '|'.$termin["termin_datumzeit"].'|'.$termin["termin_dauer"].'|'.$termin["termin_hinweis"];
 				add_post_meta($post_id,'fortbildung_termin',$termin_string);
 			}
-		}
+        }
+
+        delete_post_meta($post_id, 'fortbildung_kontaktperson');
+
+        $kontaktPersons = get_field('kontaktperson', $post_id);
+        if (is_array($kontaktPersons)) {
+            foreach ($kontaktPersons as $kontaktPerson) {
+                add_post_meta($post_id, 'fortbildung_kontaktperson', $kontaktPerson['name']);
+            }
+        }
+    }
 
 
-	}
 
 
 	/**

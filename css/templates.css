@@ -58,6 +58,11 @@
     position: relative;
 }
 
+
+.reli-post-grid.author {
+    background-color: white;
+}
+
 .reli-content {
     grid-area: content;
     padding: 20px;
@@ -152,6 +157,11 @@
 .reli-sidebar-fortbildungen summary:hover{
     background-color: var(--reli-accent-background-hover);
     cursor: pointer;
+}
+
+.author-profile-card img {
+    width: 100px;
+    border-radius: 50%;
 }
 
 @media only screen and (max-width: 1024px) {

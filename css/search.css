@@ -240,6 +240,7 @@
         grid-column-gap: var(--grid-columns-gap, 30px);
         grid-row-gap: var(--grid-columns-gap, 30px);
     }
+    .material-grid.
 
     .search-filters{
         grid-template-columns:  repeat(3, 1fr);

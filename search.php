@@ -43,51 +43,12 @@ class RpiReliFrontendSearch
         });
         add_shortcode('rpi-reli-frontend-search', array($this, 'search'));
 
-        add_action('blocksy:hero:after', function () {
-            if (is_post_type_archive('organisation')) {
-                ?>
-                <h1>Regionalseiten</h1>
-                <?php
-            }
-        });
-
-        add_action('blocksy:single:content:top', function () {
-            if (in_array(get_post_type(), RpiReliFrontendSearch::$post_types) && is_single()) {
-                ob_start();
-            }
-        });
-        add_action('blocksy:single:content:bottom', function () {
-            $postType = get_post_type();
-            if (in_array($postType, RpiReliFrontendSearch::$post_types) && is_single()) {
-                ob_end_clean();
-
-                //Ausgabe von neuen Templates
-
-                ob_start();
-                ?>
-                <div class="reli-post-grid">
-                    <div class="reli-top-section <?php echo $postType ?>">
-                        <div class="reli-header <?php echo $postType ?>">
-                            <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/header.php'; ?>
-                        </div>
-                        <div class="reli-sidebar <?php echo $postType ?>">
-                            <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/sidebar.php'; ?>
-                        </div>
-                    </div>
-                    <div class="reli-content <?php echo $postType ?>">
-                        <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/content.php'; ?>
-                    </div>
-                </div>
-                <?php
-                echo ob_get_clean();
-            }
-        });
 
         add_action('blocksy:content:top', function () {
 
 
             if (!is_author() && in_array(get_post_type(), ["organisation", "fortbildung"]) && is_single() && current_user_can('edit_post', get_the_ID())) {
-	            ?>
+                ?>
                 <div class="ct-container top-buttons">
 
 
@@ -101,17 +62,17 @@ class RpiReliFrontendSearch
                                 acfe_form('organisationpage-edit');
 
                             } else {
-	                            acfe_form('fortbildung-edit');
+                                acfe_form('fortbildung-edit');
                             }
                             ?>
                         </div>
                     </details>
                     <details class="teilnehmer-liste">
                         <summary class="button">
-	                        <?php include_once 'assets/anlass.svg'?>
+                            <?php include_once 'assets/anlass.svg'?>
                             Teilnahme Check
-	                    </summary>
-		                <?php acfe_form('anmeldungen');?>
+                        </summary>
+                        <?php acfe_form('anmeldungen');?>
                     </details>
                 </div>
                 <?php
@@ -130,26 +91,74 @@ class RpiReliFrontendSearch
                 }
             }
             if (is_author())
+            {
+                if (is_user_logged_in() && get_the_author() === get_user_meta(get_current_user_id(),'nickname',true))
                 {
-                    if (is_user_logged_in() && get_the_author() === get_user_meta(get_current_user_id(),'nickname',true))
-                        {
-                            ?>
-                            <div class="ct-container">
-                                <details class="edit-section">
-                                    <summary class="button">Bearbeiten
-                                        <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>"></summary>
-                                    <div class="organisation-edit-form">
-                                        <?php
-                                        echo do_shortcode('[basic-user-avatars]');
-                                        acfe_form('user_profile_settings');
-                                        ?>
-                                    </div>
-                                </details>
+                    ?>
+                    <div class="ct-container">
+                        <details class="edit-section">
+                            <summary class="button">Bearbeiten
+                                <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>"></summary>
+                            <div class="organisation-edit-form">
+                                <?php
+                                echo do_shortcode('[basic-user-avatars]');
+                                acfe_form('user_profile_settings');
+                                ?>
                             </div>
-                            <?php
-                        }
+                        </details>
+                    </div>
+                    <?php
                 }
+            }
         });
+
+        add_action('blocksy:hero:after', function () {
+            if (is_post_type_archive('organisation')) {
+                ?>
+                <h1>Regionalseiten</h1>
+                <?php
+            }
+        });
+        // Remove default content
+        add_action('blocksy:single:content:top', function () {
+            if (in_array(get_post_type(), RpiReliFrontendSearch::$post_types) && is_single()) {
+                ob_start();
+            }
+        });
+        add_action('blocksy:content:top', function (){
+            if (is_author()){
+                ob_start();
+            }
+        });
+
+        // Apply Templates
+        add_action('blocksy:footer:before', function (){
+            if (is_author()){
+                $postType = 'author';
+                ob_end_clean();
+
+                //Ausgabe von neuen Templates
+                ?>
+                <div class="ct-container-full" data-content="normal" data-vertical-spacing="top:bottom">
+                    <article>
+                        <?php
+                        $this->reliTemplateOutput($postType);
+                        ?>
+                    </article>
+                </div>
+                <?php
+            }
+        });
+        add_action('blocksy:single:content:bottom', function () {
+            $postType = get_post_type();
+            if (in_array($postType, RpiReliFrontendSearch::$post_types) && is_single()) {
+                ob_end_clean();
+
+                //Ausgabe von neuen Templates
+                $this->reliTemplateOutput($postType);
+            }
+        });
+
 
         add_action('blocksy:loop:card:start', function (){
             if (get_post_type() === 'organisation'){
@@ -171,91 +180,29 @@ class RpiReliFrontendSearch
                 <?php
             }
         });
+    }
 
-        add_action('blocksy:hero:title:after', function () {
-            if (is_author()) {
-                if (is_user_logged_in() && get_the_author() === get_user_meta(get_current_user_id(), 'nickname', true)) {
 
-                    $args = [
-                        'post_type' => 'anmeldung',
-                        'meta_query' => [
-                            'relation' => 'AND',
-                            [
-                                'key' => 'user',
-                                'value' => get_current_user_id(),
-                                'compare' => '=',
-                                'type' => 'NUMERIC'
-                            ],
-                        ]
-                    ];
-                    $anmeldungen = get_posts($args);
-                    if (!empty($anmeldungen)) {
-                        ob_start();
-                        ?>
-                        <div class="author-fortbildungen-anmeldungen">
-                            <?php
-                            foreach ($anmeldungen as $anmeldung) {
-                                $fortbildung = get_post(get_post_meta($anmeldung->ID, 'fobi', true));
-                                if (!empty($fortbildung)) {
-                                    ?>
-                                    <div class="author-single-fortbildung">
-                                        <h4 class="author-single-fortbildung-title"> <?php echo $fortbildung->post_title ?> </h4>
-                                        <div class="author-single-fortbildung-thumbnail"> <?php echo get_the_post_thumbnail($fortbildung->ID) ?> </div>
-                                        <?php
-                                        $termine = get_field('termine', $fortbildung->ID);
-                                        if (!empty($termine)) {
-                                            ?>
-                                            <div class="author-single-fortbildung-termine">
-                                                <?php
-                                                foreach ($termine as $termin) {
+    public function reliTemplateOutput($postType){
 
-                                                    if (strtotime($termin['termin_datumzeit']) > date()) {
-                                                        ?>
-                                                        <div class="single-termin">
-                                                            <div class="termin-date-box">
-                                                                <div class="termin-day"><?php echo date('d', strtotime($termin['termin_datumzeit'])) ?></div>
-                                                                <div class="termin-month"><?php echo date('M Y', strtotime($termin['termin_datumzeit'])) ?></div>
-                                                            </div>
-                                                            <div class="termin-daytime">
-                                                                <?php
-                                                                $startTime = date('H:i', strtotime($termin['termin_datumzeit']));
-                                                                $endTime = date('H:i', strtotime($termin['termin_datumzeit']) + 3600 * $termin['termin_dauer']);
-                                                                echo $startTime . ' - ' . $endTime . ' Uhr';
-                                                                ?>
-                                                                <?php if (!empty($termin['termin_hinweis'])) { ?>
-                                                                    <div class="termin-note"><?php echo $termin['termin_hinweis']; ?></div>
-                                                                <?php } ?>
-                                                            </div>
-                                                        </div>
-                                                        <?php
-                                                        break;
-                                                    }
-                                                }
-                                                ?>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                        <?php ?>
-                                    </div>
-                                    <?php
-                                }
-                            }
-                            ?>
-                        </div>
-                        <?php
-                        echo ob_get_clean();
-                    }
-                    ?>
+        ob_start();
+        ?>
+        <div class="reli-post-grid <?php echo $postType?>">
+            <div class="reli-top-section <?php echo $postType ?>">
+                <div class="reli-header <?php echo $postType ?>">
+                    <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/header.php'; ?>
+                </div>
+                <div class="reli-sidebar <?php echo $postType ?>">
+                    <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/sidebar.php'; ?>
+                </div>
+            </div>
+            <div class="reli-content <?php echo $postType ?>">
+                <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/content.php'; ?>
+            </div>
+        </div>
+        <?php
+        echo ob_get_clean();
 
-                    <div class="author-fortbildungen-contact">
-
-                    </div>
-                    <?php
-
-                }
-            }
-        });
     }
 
 
