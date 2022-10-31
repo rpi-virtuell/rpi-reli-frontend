@@ -25,11 +25,14 @@ class RpiReliFrontendSearch
 
         include_once plugin_dir_path(__FILE__) . '/helper/material_frontend_helper.php';
 
-        add_action('wp' ,function(){
-            if ($_SERVER['REQUEST_URI'] === '/meinprofil' && is_user_logged_in()){
-                $user = get_userdata(get_current_user_id());
-                wp_redirect(home_url('author/'.$user->user_login));
-
+        add_action('wp', function () {
+            if ($_SERVER['REQUEST_URI'] === '/meinprofil') {
+                if (is_user_logged_in()) {
+                    $user = get_userdata(get_current_user_id());
+                    wp_redirect(home_url('author/' . $user->user_login));
+                } else {
+                    //TODO : ADD Login modal
+                }
             }
     });
 
@@ -186,9 +189,18 @@ class RpiReliFrontendSearch
     public function reliTemplateOutput($postType){
 
         ob_start();
+        $wallpaperURL = get_field('hintergrundbild','user_'.get_the_author_meta('ID'));
         ?>
         <div class="reli-post-grid <?php echo $postType?>">
-            <div class="reli-top-section <?php echo $postType ?>">
+            <div class="reli-top-section <?php echo $postType  ?>"
+            <?php
+            if ($postType === 'author' && !empty($wallpaperURL)){
+                ?>
+                style="background-image: url('<?php echo $wallpaperURL?>');"
+                <?php
+            }
+            ?>
+            >
                 <div class="reli-header <?php echo $postType ?>">
                     <?php require_once plugin_dir_path(__FILE__) . 'templates/' . $postType . '/header.php'; ?>
                 </div>

@@ -30,7 +30,7 @@ if (!empty($contacts)) {
 }
 // Fortbildungen of the  Organisation
 $fortbildungen = get_field('fortbildungen', get_the_ID());
-if ( !empty($fortbildungen && sizeof($fortbildungen) > 0)) {
+if (!empty($fortbildungen && sizeof($fortbildungen) > 0)) {
     ?>
     <div class="reli-sidebar-fortbildungen reli-sidebar-section">
         <h4>Online-Fortbildungen</h4>

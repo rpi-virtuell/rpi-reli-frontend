@@ -6,6 +6,10 @@
     --reli-accent-background-hover : #e0e0e0;
 
     --reli-background-color : #DCE2F0;
+
+    --reli-pink-accent-color : #fe228c;
+    --reli-blue-accent-color : #04a3e5;
+    --reli-yellow-accent-color : #e7c945;
 }
 
 .hidden {
@@ -240,7 +244,6 @@
         grid-column-gap: var(--grid-columns-gap, 30px);
         grid-row-gap: var(--grid-columns-gap, 30px);
     }
-    .material-grid.
 
     .search-filters{
         grid-template-columns:  repeat(3, 1fr);
@@ -402,11 +405,11 @@ position: relative;
     width: 44px;
 }
 .card-tag.organisation-tag{
-    background-color: #E6AF2E ;
+    background-color: var(--reli-yellow-accent-color) ;
 }
 
 .card-tag.fortbildung-tag{
-   background-color: #70D6FF;
+   background-color: var(--reli-blue-accent-color);
 }
 .card-tag svg{
     margin: auto;
@@ -490,16 +493,27 @@ position: relative;
     padding: 20px;
     background-color: var(--reli-background-color);
     margin: calc(var(--boxed-content-spacing)*-1) calc(var(--boxed-content-spacing)*-1) 0;
-    border-bottom: 2px solid #70D6FF;
+    border-bottom: 2px solid var(--reli-blue-accent-color);
 }
 .author-single-fortbildung-thumbnail{
     grid-area: thumbnail;
-    width:  150px;
-   margin: 20px;
-
+    width:  100px;
+   margin: 20px auto;
 
 }
 .author-single-fortbildung-termine{
     grid-area: termin;
-    padding: 20px;
+}
+
+.author-profile{
+    text-align: center;
+}
+
+article.fortbildung .ct-image-container img{
+    border-top: 2px solid var(--reli-blue-accent-color);
+    border-bottom:2px solid var(--reli-blue-accent-color) ;
+}
+article.organisation .ct-image-container img{
+    border-top: 2px solid var(--reli-yellow-accent-color);
+    border-bottom:2px solid var(--reli-yellow-accent-color) ;
 }
