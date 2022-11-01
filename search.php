@@ -70,13 +70,18 @@ class RpiReliFrontendSearch
                             ?>
                         </div>
                     </details>
-                    <details class="teilnehmer-liste">
-                        <summary class="button">
-                            <?php include_once 'assets/anlass.svg'?>
-                            Teilnahme Check
-                        </summary>
-                        <?php acfe_form('anmeldungen');?>
-                    </details>
+                    <?php if (get_post_type() === 'fortbildung') {
+                        ?>
+                        <details class="teilnehmer-liste">
+                            <summary class="button">
+                                <?php include_once 'assets/anlass.svg'?>
+                                Teilnahme Check
+                            </summary>
+                            <?php acfe_form('anmeldungen');?>
+                        </details>
+                        <?php
+                    }?>
+
                 </div>
                 <?php
             }

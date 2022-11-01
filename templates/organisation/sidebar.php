@@ -14,7 +14,9 @@ if (!empty($contacts)) {
                 <div class="single-contactperson">
                     <a href="<?php echo get_author_posts_url($userId) ?>">
                         <div class="single-contactperson-spacer">
-                            <?php echo get_avatar($userId) ?>
+                            <?php  $contactLogo = get_avatar_url($userId) ?>
+                            <div class="single-logo" style="background-image: url('<?php echo $contactLogo ?>')">
+                            </div>
                             <span>
                             <?php echo $userName . ' (' . $contact['contact_section'] . ')' ?>
                         </span>

@@ -40,7 +40,9 @@ if (!empty($organisationIds)) {
             <div class="single-organisation">
                 <a href="<?php echo get_post_permalink($organisationId) ?>">
                     <div class="single-organisation-spacer">
-                        <img src="<?php echo get_field('logo_organisation',$organisationId) ?>">
+                        <?php  $organisationLogo = get_field('logo_organisation',$organisationId) ?>
+                        <div class="single-logo" style="background-image: url('<?php echo $organisationLogo ?>')">
+                        </div>
                         <span>
                         <?php
                         echo get_the_title($organisationId)
@@ -68,9 +70,9 @@ if (!empty($contactPersons)) {
             <div class="single-contactperson">
                 <a href="<?php echo get_author_posts_url($contactPerson['name']) ?>">
                     <div class="single-contactperson-spacer">
-                        <?php
-                        echo get_avatar($contactPerson['name']);
-                        ?>
+                        <?php  $contactLogo = get_avatar_url($contactPerson['name']) ?>
+                        <div class="single-logo" style="background-image: url('<?php echo $contactLogo ?>')">
+                        </div>
                         <span>
                         <?php
                         echo get_the_author_meta('display_name', $contactPerson['name']);

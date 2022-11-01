@@ -48,6 +48,22 @@
     margin-right: 15px;
 }
 
+.fortbildung-organisation .single-logo,
+.fortbildung-contactperson .single-logo,
+.organisation-contactperson .single-logo{
+    width: 80px;
+    height: 80px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.fortbildung-organisation span,
+.fortbildung-contactperson span,
+.organisation-contactperson span{
+   width: 60%;
+}
+
 .fortbildung-joinlink {
     text-align: center;
 }
@@ -106,10 +122,13 @@
 .organisation-title-logo{
     text-align: center;
 }
-.organisation-logo{
+
+.organisation-logo {
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
+    background-position: center;
+    background-size: cover;
 }
 .organisation-referral-links{
     text-align: center;
