@@ -22,9 +22,7 @@ if (!empty($organisationen)) {
             <div class="single-organisation">
                 <a href="<?php echo get_post_permalink($organisation->ID) ?>">
                     <div class="single-organisation-spacer">
-                        <?php
-                        echo get_the_post_thumbnail($organisation->ID);
-                        ?>
+                        <img src="<?php echo get_field('logo_organisation',$organisation->ID) ?>">
                         <span>
                         <?php
                         echo get_the_title($organisation->ID)

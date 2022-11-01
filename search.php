@@ -95,7 +95,8 @@ class RpiReliFrontendSearch
             }
             if (is_author())
             {
-                if (is_user_logged_in() && get_the_author() === get_user_meta(get_current_user_id(),'nickname',true))
+                $currentUser = wp_get_current_user();
+                if (is_user_logged_in() && get_the_author() === $currentUser->display_name)
                 {
                     ?>
                     <div class="ct-container">
