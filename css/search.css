@@ -161,10 +161,18 @@
 
 
 
-.search-filters {
+.search-filters ,.organisation-search-filters , .search-tutorial{
     padding: 10px;
     box-shadow: 2px 1px 7px rgba(0, 0, 0, 0.2) !important;
     background: seashell;
+}
+
+.search-tutorial:nth-child(2){
+    padding: 15px;
+}
+
+.organisation-search-filters {
+    margin-bottom: 20px;
 }
 
 .single-filter {
@@ -435,6 +443,9 @@ position: relative;
 }
 .termin-list-card .termin-list-card-content{
     padding: 15px;
+}
+.termin-list-card .termin-tags{
+    padding-top: 10px;
 }
 .termin-list-card .termin-list-card-content .termin-subtitle{
     color: #999;

@@ -22,9 +22,18 @@ if (!empty($organisationen)) {
             <div class="single-organisation">
                 <a href="<?php echo get_post_permalink($organisation->ID) ?>">
                     <div class="single-organisation-spacer">
-                        <?php  $organisationLogo = get_field('logo_organisation',$organisation->ID) ?>
-                        <div class="single-logo" style="background-image: url('<?php echo $organisationLogo ?>')">
-                        </div>
+                        <?php $organisationLogo = get_field('logo_organisation', $organisation->ID) ?>
+                        <?php if (!empty($organisationLogo)) {
+                            ?>
+                            <div class="single-logo"
+                                 style="background-image: url('<?php echo $organisationLogo ?>')"></div>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="single-logo"
+                                 style="background-image: url('<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/organisation_logo.png' ?>')"></div>
+                            <?php
+                        } ?>
                         <span>
                         <?php
                         echo get_the_title($organisation->ID)

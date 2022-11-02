@@ -124,7 +124,7 @@ class RpiReliFrontendSearch
         add_action('blocksy:hero:after', function () {
             if (is_post_type_archive('organisation')) {
                 ?>
-                <h1>Regionalseiten</h1>
+                <h1>Anbieter</h1>
                 <?php
             }
         });
@@ -189,8 +189,22 @@ class RpiReliFrontendSearch
                 <?php
             }
         });
+        add_action('blocksy:loop:before',function (){
+            if (get_post_type() === 'organisation')
+            {
+                ?>
+                <details class="organisation-search-filters">
+                <summary class="organisation-term-filter"><label>Bundesländer</label></summary>
+                <div>
+                    <?php
+               echo do_shortcode( '[facetwp facet="bundesland"]' );
+               ?>
+                </div>
+                </details>
+                <?php
+            }
+        });
     }
-
 
     public function reliTemplateOutput($postType){
 
@@ -241,6 +255,12 @@ class RpiReliFrontendSearch
 
         ?>
         <div class="search-page-grid">
+            <details class="search-tutorial">
+                <summary>Test</summary>
+               <div>
+                <?php  echo get_the_content(null, false , get_option('options_tutorial_template')) ?>
+               </div>
+            </details>
             <div class="search-bar">
                 <?php echo facetwp_display('facet', 'search'); ?>
                 <button class="wp-block-search__button button" id="search-filter-button" name="filter-button" type="button">
@@ -292,7 +312,6 @@ add_shortcode('terminsuche', function () {
     ?>
     <div class="reli-termine-list">
         <div class="reli-termine-list-filter">
-        <h4>Suche</h4>
         <form id="termineSearchForm" name="Termin Suche" method="get">
         <div class="reli-termine-filter-input">
         <div class="categorySelection">
@@ -362,12 +381,10 @@ foreach ($termine as $termin)
                 $startTime = date('H:i', $termin->timestamp);
                 $endTime = date('H:i', $termin->timestamp + 3600 * $termin->dauer);
                 echo $startTime . ' - ' . $endTime . ' Uhr';
-                ?></div>
-                    <h4>
+                ?></div>   <h4>
                     <?php echo $termin->title; ?>
                     </h4>
                     </div>
-
         </a>
                    <div class="termin-list-card-content">
                     <?php if (!empty($termin->subtitle)) { ?>
@@ -381,6 +398,16 @@ foreach ($termine as $termin)
                     <?php echo $termin->hinweis ?>
                     </span>
                 <?php } ?>
+                      <div class="termin-tags">
+                <?php $terminTags =  wp_get_post_terms($termin->post_id, 'bundesland');
+                foreach ($terminTags as $terminTag){
+                    ?>
+                     <a class="button" href="<?php echo home_url('bundesland/'. $terminTag->slug)?>"> <?php echo $terminTag->name ?></a>
+                     <?php
+                }
+                ?>
+                </div>
+
                 </div>
                 </div>
     </div>

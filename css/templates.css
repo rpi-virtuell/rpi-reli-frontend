@@ -125,11 +125,12 @@
 
 .organisation-logo {
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    max-height: 150px;
+    max-width: 150px;
     background-position: center;
     background-size: cover;
 }
+
 .organisation-referral-links{
     text-align: center;
 }
