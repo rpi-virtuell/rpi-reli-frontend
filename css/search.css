@@ -19,10 +19,38 @@
 .search-bar {
     display: flex;
     flex-direction: row;
+    margin-bottom: var(--content-spacing);
 }
 
 .search-bar > * {
     margin: 10px !important;
+}
+
+.search-bar button {
+    background-color: var(--reli-accent-color);
+    padding: 5px 20px;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+}
+.search-bar button:hover {
+    color: var(--buttonTextHoverColor);
+    background-color: var(--buttonHoverColor);
+}
+.search-filter-selections span:not(.facetwp-selection-label){
+    margin: 2px;
+    padding: 10px 15px;
+    padding-right: 30px;
+    border-radius: 10px;
+    background-color: var(--reli-blue-accent-color);
+    color: white;
+    font-weight: bold;
+    background-position: right 10px center;
+    cursor: pointer;
+}
+
+.search-filter-selections span:hover:not(.facetwp-selection-label) {
+    background-color: var(--reli-yellow-accent-color);
 }
 
 .search-bar .facetwp-search {
@@ -160,19 +188,18 @@
 }
 
 
-
-.search-filters ,.organisation-search-filters , .search-tutorial{
+.search-filters , .search-tutorial ,.reli-termine-list-filter{
     padding: 10px;
     box-shadow: 2px 1px 7px rgba(0, 0, 0, 0.2) !important;
     background: seashell;
 }
 
-.search-tutorial:nth-child(2){
-    padding: 15px;
+.search-tutorial-button{
+    float: right;
 }
 
 .organisation-search-filters {
-    margin-bottom: 20px;
+    margin-bottom: var(--content-spacing);
 }
 
 .single-filter {
@@ -461,26 +488,21 @@ position: relative;
 .termin-list-card h4 {
     margin-top: unset !important;
 }
-.reli-termine-list-filter{
 
-    background-color: seashell;
-    border-radius: 5px;
-    padding: 10px;
+.termin-term-filter, .organisation-term-filter{
+
+    width: 50%;
 }
-
-.termin-term-filter-details{
-
-    width: fit-content;
-}
-.termin-term-filter-details div{
+.termin-term-filter div, .organisation-term-filter > div{
     padding: 5px;
 }
-.termin-term-filter-details .termine-term-filter{
+.termin-term-filter summary,
+.organisation-term-filter summary{
     padding: 5px;
     border-radius: 5px;
     border: 1px  solid #999;
 }
-.termin-term-filter-details .termine-term-filter:hover{
+.termin-term-filter summary:hover, .organisation-term-filter summary:hover{
     background-color: #ccc4be;
 
 }

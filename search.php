@@ -40,13 +40,19 @@ class RpiReliFrontendSearch
             wp_enqueue_style('rpi_reli_frontend_search_style', plugin_dir_url(__FILE__) . 'css/search.css');
             wp_enqueue_style('rpi_reli_frontend_forms_style', plugin_dir_url(__FILE__) . 'css/forms.css');
             wp_enqueue_style('rpi_reli_frontend_templates_style', plugin_dir_url(__FILE__) . 'css/templates.css');
-            wp_enqueue_script('rpi_reli_frontend_js', plugin_dir_url(__FILE__) . 'js/search_filters.js', array(), false, true);
             wp_enqueue_script('rpi_reli_frontend_forms_js', plugin_dir_url(__FILE__) . 'js/forms.js', array(), false, true);
             wp_enqueue_script('rpi_reli_frontend_scripts_js', plugin_dir_url(__FILE__) . 'js/scripts.js', array(), false, true);
         });
         add_shortcode('rpi-reli-frontend-search', array($this, 'search'));
 
+        add_action('init', function (){
+            if (!isset($_COOKIE['relimentar_first_visit'])) {
+                setcookie('relimentar_first_visit', 'false', strtotime('+1 year'));
+            }
+        });
 
+
+        // ADD edit forms for all post types add form under header of page
         add_action('blocksy:content:top', function () {
 
 
@@ -86,7 +92,7 @@ class RpiReliFrontendSearch
                 <?php
             }
             if (!is_author() && get_post_type() === 'materialien') {
-                if (is_user_logged_in() && (get_the_author() === get_current_user() || current_user_can('edit_others_materials'))) {
+                if (is_user_logged_in() && (current_user_can('edit_material',get_the_ID()) || current_user_can('edit_others_materials'))) {
                     ?>
                     <div class="ct-container edit-section">
                         <a class="button"
@@ -121,26 +127,20 @@ class RpiReliFrontendSearch
             }
         });
 
-        add_action('blocksy:hero:after', function () {
-            if (is_post_type_archive('organisation')) {
-                ?>
-                <h1>Anbieter</h1>
-                <?php
-            }
-        });
-        // Remove default content
+        // Remove default content of posttypes
         add_action('blocksy:single:content:top', function () {
             if (in_array(get_post_type(), RpiReliFrontendSearch::$post_types) && is_single()) {
                 ob_start();
             }
         });
+        // Remove default content of author
         add_action('blocksy:content:top', function (){
             if (is_author()){
                 ob_start();
             }
         });
 
-        // Apply Templates
+        // Apply Template to Author
         add_action('blocksy:footer:before', function (){
             if (is_author()){
                 $postType = 'author';
@@ -158,6 +158,7 @@ class RpiReliFrontendSearch
                 <?php
             }
         });
+        // Apply Template to posttypes
         add_action('blocksy:single:content:bottom', function () {
             $postType = get_post_type();
             if (in_array($postType, RpiReliFrontendSearch::$post_types) && is_single()) {
@@ -168,7 +169,7 @@ class RpiReliFrontendSearch
             }
         });
 
-
+        //ADD designs to search cards of two posttypes
         add_action('blocksy:loop:card:start', function (){
             if (get_post_type() === 'organisation'){
                 ?>
@@ -189,17 +190,35 @@ class RpiReliFrontendSearch
                 <?php
             }
         });
+        //ADD search facet to organisation search
         add_action('blocksy:loop:before',function (){
             if (get_post_type() === 'organisation')
             {
+                $taxonomy = get_taxonomy('bundesland')
                 ?>
-                <details class="organisation-search-filters">
-                <summary class="organisation-term-filter"><label>Bundesländer</label></summary>
-                <div>
-                    <?php
-               echo do_shortcode( '[facetwp facet="bundesland"]' );
-               ?>
+                <h1>Anbieter</h1>
+                <div class="search-bar">
+                    <?php echo facetwp_display('facet', 'search'); ?>
+                    <?php echo facetwp_display('facet','reset'); ?>
                 </div>
+                <div class="search-filter-selections">
+                    <?php echo facetwp_display( 'selections' ); ?>
+                </div>
+                <details class="organisation-search-filters">
+                    <summary class="button">
+                        🧩 Erweiterte Suche
+                    </summary>
+                    <div class="search-filters">
+                        <div class="single-filter">
+                            <h4>
+                                <img class="filter-icon"
+                                     src="<?php echo __RPI_RELI_FRONTEND_URI__ . "assets/" . $taxonomy->name . ".svg" ?>"
+                                     alt="">
+                                <?php echo $taxonomy->label ?>
+                            </h4>
+                            <?php echo facetwp_display('facet', $taxonomy->name); ?>
+                        </div>
+                    </div>
                 </details>
                 <?php
             }
@@ -207,7 +226,6 @@ class RpiReliFrontendSearch
     }
 
     public function reliTemplateOutput($postType){
-
         ob_start();
         $wallpaperURL = get_field('hintergrundbild','user_'.get_the_author_meta('ID'));
         ?>
@@ -255,39 +273,53 @@ class RpiReliFrontendSearch
 
         ?>
         <div class="search-page-grid">
-            <details class="search-tutorial">
-                <summary>Test</summary>
-               <div>
+            <h1>Materialien</h1>
+            <?php
+            if (!isset($_COOKIE['relimentar_first_visit'])) {
+            ?>
+            <details>
+                <summary class="search-tutorial-button button">ℹ Info</summary>
+               <div class="search-tutorial">
                 <?php  echo get_the_content(null, false , get_option('options_tutorial_template')) ?>
                </div>
             </details>
+            <?php
+            }
+            ?>
+
             <div class="search-bar">
                 <?php echo facetwp_display('facet', 'search'); ?>
-                <button class="wp-block-search__button button" id="search-filter-button" name="filter-button" type="button">
-                    Erweiterte Suche
-                </button>
+                <?php echo facetwp_display('facet','reset'); ?>
             </div>
-            <div class="search-filters">
 
-                <?php
-                $taxonomies = get_object_taxonomies('materialien', 'objects');
-                foreach ($taxonomies as $taxonomy) {
-                    if (is_a($taxonomy, 'WP_Taxonomy')) {
-                        ?>
-                        <div class="single-filter">
-                            <h4>
-                                <img class="filter-icon"
-                                     src="<?php echo __RPI_RELI_FRONTEND_URI__ . "assets/" . $taxonomy->name . ".svg" ?>"
-                                     alt="">
-                                <?php echo $taxonomy->label ?>
-                            </h4>
-                            <?php echo facetwp_display('facet', $taxonomy->name); ?>
-                        </div>
-                        <?php
-                    }
-                }
-                ?>
+            <div class="search-filter-selections">
+                <?php echo facetwp_display( 'selections' ); ?>
             </div>
+            <details>
+                <summary class="button">
+                    🧩 Erweiterte Suche
+                </summary>
+                <div class="search-filters">
+                    <?php
+                    $taxonomies = get_object_taxonomies('materialien', 'objects');
+                    foreach ($taxonomies as $taxonomy) {
+                        if (is_a($taxonomy, 'WP_Taxonomy')) {
+                            ?>
+                            <div class="single-filter">
+                                <h4>
+                                    <img class="filter-icon"
+                                         src="<?php echo __RPI_RELI_FRONTEND_URI__ . "assets/" . $taxonomy->name . ".svg" ?>"
+                                         alt="">
+                                    <?php echo $taxonomy->label ?>
+                                </h4>
+                                <?php echo facetwp_display('facet', $taxonomy->name); ?>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
+                </div>
+            </details>
             <div class="search-results">
                 <?php echo facetwp_display('template', 'material_suchausgabe'); ?>
             </div>
@@ -318,8 +350,9 @@ add_shortcode('terminsuche', function () {
         <?php
         $terms = get_terms(array('taxonomy' => 'bundesland'));
         ?>
-        <details class="termin-term-filter-details">
-        <summary class="termine-term-filter"><label>Bundesländer</label></summary>
+        <details class="termin-term-filter">
+        <summary><label>Bundesländer</label></summary>
+        <div>
         <?php
         foreach ($terms as $term)
             {
@@ -327,21 +360,20 @@ add_shortcode('terminsuche', function () {
                 $activeTerms[] = $term->slug;
                 ?>
                 <input type="checkbox" id="<?php echo $term->slug; ?>" name="<?php echo $term->slug; ?>" value="1" <?php  echo isset($_GET[$term->slug]) ?  'checked' : '' ;?>>
-<label for="<?php echo $term->slug; ?>"><?php echo $term->name; ?></label><br>
+                <label for="<?php echo $term->slug; ?>"><?php echo $term->name; ?></label><br>
                 <?php
             }
         ?>
+        </div>
         </details>
-</div>
-<label for="dateSelector">
-                            Startdatum
-                        </label>
-                        <input type="date" name="startdate" id="dateSelector" value="<?php echo $startDate ?>">
-                        </div>
-                         <br>
-                <input class="relilab-submit-button" type="submit" value="Filter anwenden">
-                <br>
-</form>
+        </div>
+        <label for="dateSelector">Startdatum</label>
+        <input type="date" name="startdate" id="dateSelector" value="<?php echo $startDate ?>">
+        </div>
+        <br>
+        <input class="relilab-submit-button" type="submit" value="Filter anwenden">
+        <br>
+        </form>
         </div>
         <?php
 

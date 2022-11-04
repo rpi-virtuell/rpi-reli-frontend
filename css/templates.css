@@ -122,6 +122,9 @@
 .organisation-title-logo{
     text-align: center;
 }
+.organisation-tags{
+    margin-bottom: 15px;
+}
 
 .organisation-logo {
     border-radius: 50%;
@@ -215,16 +218,17 @@
 
     .reli-top-section {
         display: grid;
+        padding: unset;
     }
 
     .reli-header {
         width: unset;
-        padding: unset;
     }
 
     .reli-sidebar {
         position: unset;
         width: unset;
+        margin-bottom: 15px;
     }
 
     .reli-content {

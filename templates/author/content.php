@@ -4,7 +4,7 @@
     $editing = false;
     $post_status = 'publish';
 
-    if (is_user_logged_in() && (get_the_author() === get_current_user() || current_user_can('edit_others_materials'))) {
+    if (is_user_logged_in() && get_current_user_id() == get_the_author_meta('ID') || current_user_can('edit_others_materials')) {
         $editing = true;
         $post_status = ['publish', 'draft'];
     }
