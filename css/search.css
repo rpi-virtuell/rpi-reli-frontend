@@ -32,10 +32,18 @@
     border-radius: 3px;
     color: white;
     cursor: pointer;
+    min-height: 42px;
 }
 .search-bar button:hover {
     color: var(--buttonTextHoverColor);
     background-color: var(--buttonHoverColor);
+}
+
+.search-bar .facetwp-input-wrap{
+    background-color: white;
+    border: 1px solid grey;
+    min-width: 300px;
+    border-radius: 4px;
 }
 .search-filter-selections span:not(.facetwp-selection-label){
     margin: 2px;
@@ -188,10 +196,16 @@
 }
 
 
-.search-filters , .search-tutorial ,.reli-termine-list-filter{
+.search-filters , .search-tutorial ,.termin-term-filter{
     padding: 10px;
     box-shadow: 2px 1px 7px rgba(0, 0, 0, 0.2) !important;
     background: seashell;
+}
+.termin-term-filter #dateSelector{
+    margin-bottom: 10px;
+}
+#termineSearchForm summary{
+    margin-bottom: 10px;
 }
 
 .search-tutorial-button{
@@ -487,24 +501,6 @@ position: relative;
 }
 .termin-list-card h4 {
     margin-top: unset !important;
-}
-
-.termin-term-filter, .organisation-term-filter{
-
-    width: 50%;
-}
-.termin-term-filter div, .organisation-term-filter > div{
-    padding: 5px;
-}
-.termin-term-filter summary,
-.organisation-term-filter summary{
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px  solid #999;
-}
-.termin-term-filter summary:hover, .organisation-term-filter summary:hover{
-    background-color: #ccc4be;
-
 }
 
 .fortbildung-name{

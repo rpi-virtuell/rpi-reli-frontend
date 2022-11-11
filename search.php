@@ -30,8 +30,6 @@ class RpiReliFrontendSearch
                 if (is_user_logged_in()) {
                     $user = get_userdata(get_current_user_id());
                     wp_redirect(home_url('author/' . $user->user_login));
-                } else {
-                    //TODO : ADD Login modal
                 }
             }
     });
@@ -50,20 +48,17 @@ class RpiReliFrontendSearch
                 setcookie('relimentar_first_visit', 'false', strtotime('+1 year'));
             }
         });
-
-
         // ADD edit forms for all post types add form under header of page
         add_action('blocksy:content:top', function () {
 
-
-            if (!is_author() && in_array(get_post_type(), ["organisation", "fortbildung"]) && is_single() && current_user_can('edit_post', get_the_ID())) {
+            if (!is_author() && in_array(get_post_type(), ["organisation", "fortbildung"]) && is_single() && ( current_user_can('edit_'. get_post_type(), get_the_ID()) || current_user_can('edit_others_posts', get_the_ID()) )) {
                 ?>
                 <div class="ct-container top-buttons">
 
-
                     <details class="edit-section">
                         <summary class="button">Bearbeiten
-                            <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>"></summary>
+                            <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>">
+                        </summary>
                         <div class="organisation-edit-form">
                             <?php
                             if (get_post_type() === 'organisation') {
@@ -273,20 +268,14 @@ class RpiReliFrontendSearch
 
         ?>
         <div class="search-page-grid">
-            <h1>Materialien</h1>
-            <?php
-            if (!isset($_COOKIE['relimentar_first_visit'])) {
-            ?>
-            <details>
+            <details <?php echo isset($_COOKIE['relimentar_first_visit']) ? '' : 'class= "open" open="open"'  ?>>
                 <summary class="search-tutorial-button button">ℹ Info</summary>
                <div class="search-tutorial">
                 <?php  echo get_the_content(null, false , get_option('options_tutorial_template')) ?>
                </div>
             </details>
-            <?php
-            }
-            ?>
-
+            <h1>Materialien</h1>
+            
             <div class="search-bar">
                 <?php echo facetwp_display('facet', 'search'); ?>
                 <?php echo facetwp_display('facet','reset'); ?>
@@ -333,66 +322,75 @@ class RpiReliFrontendSearch
 add_shortcode('terminsuche', function () {
     ob_start();
 
-     if (isset($_GET['startdate'])) {
-            $startDate = $_GET['startdate'];
-        } elseif (isset($atts['startdate'])) {
-            $startDate = $atts['startdate'];
-        } else {
-            $startDate = date('Y-m-d');
-        }
+    if (isset($_GET['startdate'])) {
+        $startDate = $_GET['startdate'];
+    } elseif (isset($atts['startdate'])) {
+        $startDate = $atts['startdate'];
+    } else {
+        $startDate = date('Y-m-d');
+    }
 
     ?>
     <div class="reli-termine-list">
-        <div class="reli-termine-list-filter">
         <form id="termineSearchForm" name="Termin Suche" method="get">
-        <div class="reli-termine-filter-input">
-        <div class="categorySelection">
-        <?php
-        $terms = get_terms(array('taxonomy' => 'bundesland'));
-        ?>
-        <details class="termin-term-filter">
-        <summary><label>Bundesländer</label></summary>
-        <div>
-        <?php
-        foreach ($terms as $term)
-            {
-                if (isset($_GET[$term->slug]))
-                $activeTerms[] = $term->slug;
-                ?>
-                <input type="checkbox" id="<?php echo $term->slug; ?>" name="<?php echo $term->slug; ?>" value="1" <?php  echo isset($_GET[$term->slug]) ?  'checked' : '' ;?>>
-                <label for="<?php echo $term->slug; ?>"><?php echo $term->name; ?></label><br>
-                <?php
-            }
-        ?>
-        </div>
-        </details>
-        </div>
-        <label for="dateSelector">Startdatum</label>
-        <input type="date" name="startdate" id="dateSelector" value="<?php echo $startDate ?>">
-        </div>
-        <br>
-        <input class="relilab-submit-button" type="submit" value="Filter anwenden">
-        <br>
+            <?php
+            $terms = get_terms(array('taxonomy' => 'bundesland'));
+            ?>
+            <details class="open" open="open">
+                <summary class="button">
+                    🧩 Erweiterte Suche
+                </summary>
+                <div class="termin-term-filter">
+                    <div>
+                        <h4>
+                            <img class="filter-icon"
+                                 src="<?php echo __RPI_RELI_FRONTEND_URI__ . "assets/bundesland.svg" ?>"
+                                 alt="">
+                            Bundesländer
+                        </h4>
+                        <?php
+                        foreach ($terms as $term) {
+                            if (isset($_GET[$term->slug]))
+                                $activeTerms[] = $term->slug;
+                            ?>
+                            <input type="checkbox" id="<?php echo $term->slug; ?>" name="<?php echo $term->slug; ?>"
+                                   value="1" <?php echo isset($_GET[$term->slug]) ? 'checked' : ''; ?>>
+                            <label for="<?php echo $term->slug; ?>"><?php echo $term->name; ?></label><br>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                    <label for="dateSelector">Startdatum</label>
+                    <input type="date" name="startdate" id="dateSelector" value="<?php echo $startDate ?>">
+                    <input class="relilab-submit-button" type="submit" value="Filter anwenden">
+                </div>
+            </details>
         </form>
-        </div>
-        <?php
+    </div>
+    <?php
 
      $termIds = [];
         if (isset($activeTerms))
             {
-	 $termPosts = get_posts( [
+                $args = [
              'post_type' => 'fortbildung',
              'numberposts' => -1,
              'tax_query' => [
+                                          'relation'=> 'OR',
+                     [
                      'taxonomy' => 'bundesland',
                      'field' => 'slug',
                      'terms' => $activeTerms]
-             ]);
+                     ]
+             ];
+	 $termPosts = get_posts($args);
      foreach ($termPosts as $post){
          $termIds[] = $post->ID;
      }
             }
-$termine = RpiReliFrontendFormsHandler::get_termine('ASC',strtotime($startDate),false,$termIds);
+if (!empty($termPosts) || empty($activeTerms))
+    {
+        $termine = RpiReliFrontendFormsHandler::get_termine('ASC',strtotime($startDate),false,$termIds);
 foreach ($termine as $termin)
 {
     ?>
@@ -400,8 +398,12 @@ foreach ($termine as $termin)
     <div class="single-termin">
     <div class="termin-spacer">
         <div class="termin-date-box">
-            <div class="termin-day"><?php echo date('d', $termin->timestamp) ?></div>
-            <div class="termin-month"><?php echo date('M Y', $termin->timestamp) ?></div>
+            <div class="termin-day">
+            <?php echo date('d', $termin->timestamp) ?>
+            </div>
+            <div class="termin-month">
+            <?php echo date('M Y', $termin->timestamp) ?>
+            </div>
         </div>
         </div>
 
@@ -446,6 +448,15 @@ foreach ($termine as $termin)
     </div>
     <?php
 }
+    }else{
+    ?>
+    <br>
+    <span>
+    Es wurden keine Fortbildungen gefunden
+</span>
+        <?php
+    }
+
 
     return ob_get_clean();
 });

@@ -7,10 +7,11 @@ class RpiReliFrontendFormsHandler{
 		add_action('acfe/form/submit/form=fortbildung-edit', [$this,'update_fortbildungs_meta'], 10, 2);
 		add_action('acfe/form/submit/form=organisationpage-create', [$this,'update_organisations_meta'], 10, 2);
 		add_action('acfe/form/submit/form=organisationpage-edit', [$this,'update_organisations_meta'], 10, 2);
+        add_action('acfe/form/submit/form=user_profile_settings',[$this, 'update_user_meta'],10, 2);
+        add_action('set_user_role',[$this,'update_user_status'],10, 3);
 		add_filter('acf/load_field/name=teilnehmende', [$this,'load_teilnehmende']);
 		add_filter('acf/load_field/name=teilnahme_datum', [$this,'load_teilnahme_datum']);
 		add_action('acfe/form/submit/form=anmeldungen', [$this, 'on_teilnehmer_liste_submit'], 10, 2);
-
 	}
 
 	public function load_teilnehmende ($field) {
@@ -117,7 +118,28 @@ class RpiReliFrontendFormsHandler{
 
 	}
 
-	public function on_teilnehmer_liste_submit($form, $post_ID){
+    public function update_user_status( int $user_id, string $role, array $old_roles)
+    {
+        if ($role === 'anbieterin')
+        {
+            if (!in_array('anbieter', $old_roles)){
+                update_user_meta($user_id, 'anbieterin_status','granted');
+            }
+        }
+    }
+
+    public function update_user_meta($form, $post_ID)
+    {
+        if (!in_array(get_user_meta($post_ID, 'anbieterin_status', true), ['pending', 'granted'])) {
+            $fortbildungen = get_user_meta($post_ID, 'fortbildungen', true);
+            if ($fortbildungen) {
+               update_user_meta($post_ID, 'anbieterin_status','pending');
+               do_action('moderation_message_anbieterin_request', $post_ID);
+            }
+        }
+    }
+
+    public function on_teilnehmer_liste_submit($form, $post_ID){
 
 		$current_date = get_post_meta($post_ID,'teilnahme_datum', true);
 
