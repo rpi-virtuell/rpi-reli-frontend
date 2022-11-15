@@ -7,7 +7,7 @@ class RpiReliFrontendFormsHandler{
 		add_action('acfe/form/submit/form=fortbildung-edit', [$this,'update_fortbildungs_meta'], 10, 2);
 		add_action('acfe/form/submit/form=organisationpage-create', [$this,'update_organisations_meta'], 10, 2);
 		add_action('acfe/form/submit/form=organisationpage-edit', [$this,'update_organisations_meta'], 10, 2);
-        add_action('acfe/form/submit/form=user_profile_settings',[$this, 'update_user_meta'],10, 2);
+        add_action('acfe/form/submit/user/form=user_profile_settings',[$this, 'update_user_meta'],10, 1);
         add_action('set_user_role',[$this,'update_user_status'],10, 3);
 		add_filter('acf/load_field/name=teilnehmende', [$this,'load_teilnehmende']);
 		add_filter('acf/load_field/name=teilnahme_datum', [$this,'load_teilnahme_datum']);
@@ -88,10 +88,6 @@ class RpiReliFrontendFormsHandler{
 
 		}
 
-
-
-
-
 	}
 
 	public function load_teilnahme_datum ($field) {
@@ -126,15 +122,22 @@ class RpiReliFrontendFormsHandler{
                 update_user_meta($user_id, 'anbieterin_status','granted');
             }
         }
+        elseif (in_array('anbieterin', $old_roles))
+        {
+
+        }
     }
 
-    public function update_user_meta($form, $post_ID)
+    public function update_user_meta($user_ID)
     {
-        if (!in_array(get_user_meta($post_ID, 'anbieterin_status', true), ['pending', 'granted'])) {
-            $fortbildungen = get_user_meta($post_ID, 'fortbildungen', true);
-            if ($fortbildungen) {
-               update_user_meta($post_ID, 'anbieterin_status','pending');
-               do_action('moderation_message_anbieterin_request', $post_ID);
+        var_dump($user_ID);
+
+
+        if (!in_array(get_user_meta($user_ID, 'anbieterin_status', true), ['pending', 'granted'])) {
+            $fortbildungen = get_user_meta($user_ID, 'fortbildungen', true);
+            if ($fortbildungen === '1') {
+               update_user_meta($user_ID, 'anbieterin_status','pending');
+               do_action('moderation_message_anbieterin_request', $user_ID);
             }
         }
     }

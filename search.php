@@ -101,7 +101,40 @@ class RpiReliFrontendSearch
             }
             if (is_author())
             {
+
                 $currentUser = wp_get_current_user();
+                $authorId = get_the_author_meta('ID');
+                if (is_user_logged_in() && user_can($currentUser,'edit_others_materials' ))
+                {
+                    $anbieterinStatus = get_user_meta($authorId, 'anbieterin_status',true);
+                    if($anbieterinStatus === 'pending'){
+                        ?>
+                        <div class="ct-container anbieter-box">
+                            <p class="search-tutorial"> Diese:r Nutzer:in hat angefragt ein:e Anbieter:in für Fortbildungen zu werden sollen diese Rechte vergeben werden</p>
+                            <a href="?role=grant" class="button accept">Rechte gewähren</a>
+                            <a href="?role=deny" class="button deny">Rechte verbieten</a>
+                        </div>
+                        <?php
+                    }
+                    if (isset($_GET['role']))
+                    {
+                      if ($_GET['role'] === 'grant')
+                      {
+                          update_user_meta($authorId, 'anbieterin_status', 'granted');
+                          get_userdata($authorId)->set_role('anbieterin');
+                          wp_redirect('');
+
+
+                      }
+                      elseif ($_GET['role'] === 'deny')
+                      {
+                          update_user_meta($authorId, 'anbieterin_status', 'denied');
+                          wp_redirect('');
+                      }
+                    }
+
+                }
+
                 if (is_user_logged_in() && get_the_author() === $currentUser->display_name)
                 {
                     ?>

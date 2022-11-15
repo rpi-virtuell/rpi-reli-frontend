@@ -16,6 +16,20 @@
     visibility: hidden;
 }
 
+.button.deny{
+    background-color: var(--reli-pink-accent-color);
+}
+.button.deny:hover{
+    background-color: var(--reli-yellow-accent-color);
+}
+.anbieter-box{
+    margin: 15px 0;
+}
+.anbieter-box a{
+    text-align: right;
+
+}
+
 .search-bar {
     display: flex;
     flex-direction: row;
