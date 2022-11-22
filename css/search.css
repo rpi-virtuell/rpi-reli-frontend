@@ -432,6 +432,10 @@ details.material-report summary span {
 .edit-section {
     margin-top: 25px;
     text-align: right;
+
+}
+.edit-section details{
+    margin-left: 5px;
 }
 .edit-section div{
     text-align: left;

@@ -48,6 +48,53 @@ class RpiReliFrontendSearch
                 setcookie('relimentar_first_visit', 'false', strtotime('+1 year'));
             }
         });
+        //Handle Clone request of Material Cloning Form
+        add_action('init', function () {
+
+            if (is_user_logged_in() && isset($_GET['post_ID']) && $_GET['action'] === 'clone') {
+                $oldPost = get_post($_GET['post_ID']);
+                if (!empty($oldPost) && !empty($_GET['title'])) {
+
+                    $oldPost->post_title = $_GET['title'];
+
+
+                    $newArgs = array(
+                        'post_name' => sanitize_title($_GET['title']),
+                        'post_type' => $oldPost->post_type,
+                        'post_title' => $_GET['title'],
+                        'post_content' => $oldPost->post_content,
+                        'post_excerpt' => $oldPost->post_excerpt,
+                        'post_status' => 'draft',
+                        'post_author' => get_current_user_id()
+                    );
+
+                    $newPostId = wp_insert_post($newArgs);
+
+                    $taxonomies = get_post_taxonomies($oldPost);
+                    foreach ($taxonomies as $taxonomy) {
+                        $terms = wp_get_post_terms($oldPost->ID, $taxonomy->name);
+                        wp_set_post_terms($newPostId, $terms, $taxonomy);
+                    }
+
+                    update_post_meta($newPostId, 'origin_post_id', $oldPost->ID);
+
+                    // TODO: Muss hier noch das Bundesland  als post/user meta gesetzt werden (wird eigentlich über die taxonomie gesetzt)
+
+                    //Bundesland des Users
+                    $bundesland = '';
+                    $args = ['post' => $newPostId, 'bundesland' => $bundesland];
+                    do_action('new_material_cloned', $args);
+
+                    //WP_redirect in editing modus of new post
+                    wp_redirect(home_url('wp-admin/post.php?post='.$newPostId.'&action=edit#'));
+
+                    exit();
+
+                }
+            }
+        });
+
+
         // ADD edit forms for all post types add form under header of page
         add_action('blocksy:content:top', function () {
 
@@ -56,8 +103,9 @@ class RpiReliFrontendSearch
                 <div class="ct-container top-buttons">
 
                     <details class="edit-section">
-                        <summary class="button">Bearbeiten
+                        <summary class="button">
                             <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>">
+                            Bearbeiten
                         </summary>
                         <div class="organisation-edit-form">
                             <?php
@@ -87,17 +135,31 @@ class RpiReliFrontendSearch
                 <?php
             }
             if (!is_author() && get_post_type() === 'materialien') {
-                if (is_user_logged_in() && (current_user_can('edit_material',get_the_ID()) || current_user_can('edit_others_materials'))) {
-                    ?>
-                    <div class="ct-container edit-section">
+                ?>
+                <div class="ct-container edit-section">
+                    <?php
+
+                    if (is_user_logged_in() && (current_user_can('edit_material', get_the_ID()) || current_user_can('edit_others_materials'))) {
+                        ?>
                         <a class="button"
                            href="<?php echo get_site_url() . '/wp-admin/post.php?post=' . get_the_ID() ?> &action=edit">
-                            Bearbeiten
                             <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>">
+                            Bearbeiten
                         </a>
-                    </div>
-                    <?php
-                }
+                    <?php }
+
+                    if (is_user_logged_in()) {
+                        ?>
+                        <a class="button"
+                           href="<?php echo get_site_url() . '/material-klonen/?post_id=' . get_the_ID() ?>">
+                            <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/klonen.svg' ?>">
+                            Klonen
+                        </a>
+
+                        <?php
+                    } ?>
+                </div>
+                <?php
             }
             if (is_author())
             {
@@ -140,8 +202,10 @@ class RpiReliFrontendSearch
                     ?>
                     <div class="ct-container">
                         <details class="edit-section">
-                            <summary class="button">Bearbeiten
-                                <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>"></summary>
+                            <summary class="button">
+                                <img src="<?php echo __RPI_RELI_FRONTEND_URI__ . 'assets/edit.svg' ?>">
+                                Bearbeiten
+                            </summary>
                             <div class="organisation-edit-form">
                                 <?php
                                 echo do_shortcode('[basic-user-avatars]');
