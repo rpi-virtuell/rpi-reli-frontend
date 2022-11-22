@@ -72,8 +72,16 @@ class RpiReliFrontendSearch
 
                     $taxonomies = get_post_taxonomies($oldPost);
                     foreach ($taxonomies as $taxonomy) {
-                        $terms = wp_get_post_terms($oldPost->ID, $taxonomy->name);
-                        wp_set_post_terms($newPostId, $terms, $taxonomy);
+                        $terms = wp_get_post_terms($oldPost->ID, $taxonomy);
+                        if (!empty($terms))
+                        {
+                            $terms_array = array();
+                            foreach ($terms as $term)
+                            {
+                                $terms_array[] = $term->term_id;
+                            }
+                            wp_set_post_terms($newPostId, $terms_array, $taxonomy);
+                        }
                     }
 
                     update_post_meta($newPostId, 'origin_post_id', $oldPost->ID);
