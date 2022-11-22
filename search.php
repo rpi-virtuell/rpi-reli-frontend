@@ -86,6 +86,10 @@ class RpiReliFrontendSearch
 
                     update_post_meta($newPostId, 'origin_post_id', $oldPost->ID);
 
+                    //append old author to meta key co-author  meta-key 'coautor'
+
+                    // lock lizenz
+
                     // TODO: Muss hier noch das Bundesland  als post/user meta gesetzt werden (wird eigentlich über die taxonomie gesetzt)
 
                     //Bundesland des Users

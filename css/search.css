@@ -160,6 +160,10 @@
 .material-origin h3 {
     margin-bottom: unset !important;
 }
+.reli-sidebar-section .origin{
+    width: fit-content;
+    margin: auto;
+}
 
 .taxonomien table , .taxonomien td{
 

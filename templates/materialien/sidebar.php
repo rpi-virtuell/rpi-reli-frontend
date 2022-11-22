@@ -8,6 +8,19 @@ if (!empty(get_field('inhalt'))) {
         <?php
         echo $frontend_helper->get_tags_as_html('urheberschaft', true, 'Autor:innen');
         ?>
+
+        <?php
+        $originPostId = get_post_meta(get_the_ID(), 'origin_post_id', true);
+        if (!empty($originPostId))
+        {
+            ?>
+            <p class="origin">
+                Originalbeitrag:
+                <a href="<?php echo get_post_permalink($originPostId) ?>"><?php echo get_the_title($originPostId) ?></a>
+            </p>
+            <?php
+        }
+        ?>
     </div>
     <?php
 }
