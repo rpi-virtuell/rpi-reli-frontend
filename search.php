@@ -49,7 +49,7 @@ class RpiReliFrontendSearch
             }
         });
         //Handle Clone request of Material Cloning Form
-        add_action('init', function () {
+        add_action('wp', function () {
 
             if (is_user_logged_in() && isset($_GET['post_ID']) && $_GET['action'] === 'clone') {
                 $oldPost = get_post($_GET['post_ID']);
@@ -72,29 +72,49 @@ class RpiReliFrontendSearch
 
                     $taxonomies = get_post_taxonomies($oldPost);
                     foreach ($taxonomies as $taxonomy) {
-                        $terms = wp_get_post_terms($oldPost->ID, $taxonomy);
-                        if (!empty($terms))
-                        {
-                            $terms_array = array();
-                            foreach ($terms as $term)
-                            {
-                                $terms_array[] = $term->term_id;
+                        if ($taxonomy != 'bundesland') {
+                            $terms = wp_get_post_terms($oldPost->ID, $taxonomy);
+                            if (!empty($terms)) {
+                                $terms_array = array();
+                                foreach ($terms as $term) {
+                                    $terms_array[] = $term->term_id;
+                                }
+                                wp_set_post_terms($newPostId, $terms_array, $taxonomy);
                             }
-                            wp_set_post_terms($newPostId, $terms_array, $taxonomy);
+                        } else {
+                            $userBundeslandId = get_user_meta(get_current_user_id(), 'bundesland_id', true);
+                            if (!empty($userBundeslandId))
+                            {
+                                wp_set_post_terms($newPostId, $userBundeslandId, $taxonomy);
+                            }
                         }
                     }
-
                     update_post_meta($newPostId, 'origin_post_id', $oldPost->ID);
 
-                    //append old author to meta key co-author  meta-key 'coautor'
+                    $coautor = get_post_meta($oldPost->ID, 'urheberschaft_coautor', true);
+                    $oldauthor = get_userdata($oldPost->post_author);
+                    if (is_a($oldauthor,'WP_User'))
+                    {
+                        update_post_meta($newPostId, 'urheberschaft_coautor', $coautor.', '. $oldauthor->display_name );
+                    }
 
                     // lock lizenz
 
                     // TODO: Muss hier noch das Bundesland  als post/user meta gesetzt werden (wird eigentlich über die taxonomie gesetzt)
 
-                    //Bundesland des Users
-                    $bundesland = '';
-                    $args = ['post' => $newPostId, 'bundesland' => $bundesland];
+                    $bundesland_term_id = get_user_meta(get_current_user_id(),'bundesland_id',true);
+                    $bundesland = get_term($bundesland_term_id);
+                   $newPost = get_post($newPostId);
+                   $args ['post'] = $newPost;
+                   $args ['user'] = wp_get_current_user();
+                    if ( is_a($bundesland , 'WP_Term') )
+                    {
+                        $args['bundesland'] =  $bundesland->name;
+                    }
+                    else{
+                        $args['bundesland'] =  'Kein Bundesland angegeben';
+
+                    }
                     do_action('new_material_cloned', $args);
 
                     //WP_redirect in editing modus of new post
