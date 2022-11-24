@@ -100,8 +100,6 @@ class RpiReliFrontendSearch
 
                     // lock lizenz
 
-                    // TODO: Muss hier noch das Bundesland  als post/user meta gesetzt werden (wird eigentlich über die taxonomie gesetzt)
-
                     $bundesland_term_id = get_user_meta(get_current_user_id(),'bundesland_id',true);
                     $bundesland = get_term($bundesland_term_id);
                    $newPost = get_post($newPostId);

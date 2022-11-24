@@ -147,7 +147,7 @@ class MaterialFrontendHelper
 	    }else{
             ?>
                 <div class="unchecked">
-                    <p>Dieser Beitrag wurde nocht nicht redaktionell geprüft.</p>
+                    <p>Dieser Beitrag wurde noch nicht redaktionell geprüft.</p>
                 </div>
             <?php
 	    }
