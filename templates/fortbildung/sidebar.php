@@ -89,6 +89,9 @@ if (!empty($contactPersons)) {
 }
 ?>
 <div class="reli-sidebar-section">
+    <div class="fortbildung-certificate-box">
+        <?php MaterialFrontendHelper::fortbildung_certificate_box(); ?>
+    </div>
     <div class="fortbildung-joinlink">
         <?php
        $joinHint =  get_field('hints', get_the_ID());

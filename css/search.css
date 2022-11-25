@@ -347,10 +347,6 @@
     border-color: var(--reli-accent-color);
 }
 
- .material-title + .material-card-content .material-picture:hover {
-    border-color: var(--reli-accent-color-hover);
-}
-
 .material-picture:hover {
     border-color: var(--reli-accent-color-hover);
 }

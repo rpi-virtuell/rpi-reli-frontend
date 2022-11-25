@@ -188,4 +188,32 @@ class MaterialFrontendHelper
 
     }
 
+    static function fortbildung_certificate_box($fortbildungs_id = 0)
+    {
+        if ($fortbildungs_id === 0) {
+            $fortbildungs_id = get_the_ID();
+        }
+        $termine = get_post_meta($fortbildungs_id, 'fortbildung_termin');
+
+        $current_date = get_post_meta($fortbildungs_id,'teilnahme_datum',true);
+
+        var_dump($current_date);
+//
+//        var_dump(date(DATE_ATOM, $current_date));
+        var_dump($termine);
+
+        $fortbildung_confirmation = array();
+
+        foreach ($termine as $termin){
+            $exploded_termin = explode('|', $termin);
+            $formated_date = date('ymd',$exploded_termin[0]);
+            $fortbildung_confirmation [] =  get_post_meta($fortbildungs_id,'teilnehmende_'.$formated_date,get_post_meta($fortbildungs_id,'teilnehmende',true) );
+
+        }
+
+        var_dump($fortbildung_confirmation);
+
+
+
+    }
 }

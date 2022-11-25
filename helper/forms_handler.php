@@ -36,7 +36,7 @@ class RpiReliFrontendFormsHandler{
 		$anmeldungen = get_posts($args);
 
 
-		if ($anmeldungen !== false) {
+		if ($anmeldungen) {
 			foreach ($anmeldungen as $anm){
 
 				$user_id = get_post_meta($anm->ID, 'user', true);
@@ -130,9 +130,6 @@ class RpiReliFrontendFormsHandler{
 
     public function update_user_meta($user_ID)
     {
-        var_dump($user_ID);
-
-
         if (!in_array(get_user_meta($user_ID, 'anbieterin_status', true), ['pending', 'granted'])) {
             $fortbildungen = get_user_meta($user_ID, 'fortbildungen', true);
             if ($fortbildungen === '1') {
@@ -150,20 +147,20 @@ class RpiReliFrontendFormsHandler{
 
         header('location: ' .  get_permalink($post_ID));
 
-
 	}
 
-	public function update_fortbildungs_meta ($form, $post_id) {
+    public function update_fortbildungs_meta($form, $post_id)
+    {
 
-		delete_post_meta($post_id,'fortbildung_termin');
+        delete_post_meta($post_id, 'fortbildung_termin');
 
-		$termine = get_field('termine',$post_id);
-		if(is_array($termine)){
-			foreach ($termine as $termin){
-				$termin_string = strtotime($termin["termin_datumzeit"]);
-				$termin_string .= '|'.$termin["termin_datumzeit"].'|'.$termin["termin_dauer"].'|'.$termin["termin_hinweis"];
-				add_post_meta($post_id,'fortbildung_termin',$termin_string);
-			}
+        $termine = get_field('termine', $post_id);
+        if (is_array($termine)) {
+            foreach ($termine as $termin) {
+                $termin_string = strtotime($termin["termin_datumzeit"]);
+                $termin_string .= '|' . $termin["termin_datumzeit"] . '|' . $termin["termin_dauer"] . '|' . $termin["termin_hinweis"];
+                add_post_meta($post_id, 'fortbildung_termin', $termin_string);
+            }
         }
 
         delete_post_meta($post_id, 'fortbildung_kontaktperson');
