@@ -92,16 +92,4 @@ if (!empty($contactPersons)) {
     <div class="fortbildung-certificate-box">
         <?php MaterialFrontendHelper::fortbildung_certificate_box(); ?>
     </div>
-    <div class="fortbildung-joinlink">
-        <?php
-       $joinHint =  get_field('hints', get_the_ID());
-        if ($joinHint)
-        { ?>
-        <p style="text-align: left">
-            <?php echo  get_field('hints', get_the_ID())?>
-        </p>
-        <?php
-        }
-        MaterialFrontendHelper::fortbildung_enroll_button(get_the_ID()); ?>
-    </div>
 </div>

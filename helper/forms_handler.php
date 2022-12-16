@@ -55,7 +55,6 @@ class RpiReliFrontendFormsHandler{
 
 
 			$checked =  get_post_meta(intval($fobi), 'teilnehmende'.$meta_post_fix, true);
-			//var_dump($checked);
 			$field['default_value']=$checked;
 		}
 

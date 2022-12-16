@@ -179,8 +179,11 @@ class MaterialFrontendHelper
 	    $posts = get_posts($args);
 
         if(count($posts)>0){
-            echo "Du bist für diese  Fortbildung angemeldet. Hier geht es zum ";
-	        echo   '<strong><a href="'. get_field('join_url',get_the_ID()) .'">Konferenzraum</a></strong>.';
+            ?>
+                <p style="text-align: left">Du bist für diese Fortbildung angemeldet. Hier geht es zum
+                    <strong><a href="<?php echo get_field('join_url',get_the_ID()) ?>">Konferenzraum</a></strong>
+                </p>
+            <?php
         }else{
 
             echo   '<a class="button" href="'. home_url() . '/anmeldeformular/?fobi=' . $fobi .'">Zur Fortbildung anmelden</a>';
@@ -195,25 +198,51 @@ class MaterialFrontendHelper
         }
         $termine = get_post_meta($fortbildungs_id, 'fortbildung_termin');
 
-        $current_date = get_post_meta($fortbildungs_id,'teilnahme_datum',true);
+        $certificate =false;
+        $fortbildung_in_progress = false;
 
-        var_dump($current_date);
-//
-//        var_dump(date(DATE_ATOM, $current_date));
-        var_dump($termine);
-
-        $fortbildung_confirmation = array();
 
         foreach ($termine as $termin){
+
             $exploded_termin = explode('|', $termin);
             $formated_date = date('ymd',$exploded_termin[0]);
-            $fortbildung_confirmation [] =  get_post_meta($fortbildungs_id,'teilnehmende_'.$formated_date,get_post_meta($fortbildungs_id,'teilnehmende',true) );
+            if ($formated_date  === date('ymd')){
+                $fortbildung_in_progress = true;
+            }
+            $fortbildung_confirmation =  get_post_meta($fortbildungs_id,'teilnehmende_'.$formated_date,true);
 
+            if (in_array(get_current_user_id(),$fortbildung_confirmation))
+            {
+                $certificate = true;
+            }
         }
 
-        var_dump($fortbildung_confirmation);
+        if ($fortbildung_in_progress)
+        {
 
+            ?>
+            <div class="fortbildung-joinlink">
+                <?php
+                $joinHint =  get_field('hints', $fortbildungs_id);
+                if ($joinHint)
+                { ?>
+                    <p style="text-align: left">
+                        <?php echo  get_field('hints', $fortbildungs_id)?>
+                    </p>
+                    <?php
+                }
+                MaterialFrontendHelper::fortbildung_enroll_button($fortbildungs_id); ?>
+            </div>
+            <?php
+        }
 
-
+        if ($certificate)
+        {
+            ?>
+            <div>
+                Es wurde eingetragen das du an dieser Fortbildung teilgenommen hast
+            </div>
+            <?php
+        }
     }
 }
