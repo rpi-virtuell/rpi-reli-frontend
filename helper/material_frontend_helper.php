@@ -211,7 +211,7 @@ class MaterialFrontendHelper
             }
             $fortbildung_confirmation =  get_post_meta($fortbildungs_id,'teilnehmende_'.$formated_date,true);
 
-            if (in_array(get_current_user_id(),$fortbildung_confirmation))
+            if (is_array($fortbildung_confirmation) && in_array(get_current_user_id(),$fortbildung_confirmation))
             {
                 $certificate = true;
             }

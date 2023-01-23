@@ -84,7 +84,8 @@ if (!empty($fortbildungen)) {
                                 <?php
                                 foreach ($termine as $termin) {
 
-                                    if (strtotime($termin['termin_datumzeit']) > date()) {
+                                    if (strtotime($termin['termin_datumzeit']) > time()) {
+
                                         ?>
                                         <div class="single-termin">
                                             <div class="termin-date-box">
@@ -160,7 +161,7 @@ if (is_user_logged_in() && get_the_author() === get_user_meta(get_current_user_i
                                     <?php
                                     foreach ($termine as $termin) {
 
-                                        if (strtotime($termin['termin_datumzeit']) > date()) {
+                                        if (strtotime($termin['termin_datumzeit']) > time()) {
                                             ?>
                                             <div class="single-termin">
                                                 <div class="termin-date-box">
